@@ -2,7 +2,7 @@ plugins {
     kotlin("jvm") version "2.0.0"
 }
 
-group = "com.ashampoo"
+group = "de.stefan-oltmann"
 version = "1.0-SNAPSHOT"
 
 repositories {
@@ -10,5 +10,5 @@ repositories {
 }
 
 dependencies {
-    implementation("com.ashampoo:kim:0.18.4")
+    implementation("de.stefan-oltmann:kim:0.27.0")
 }

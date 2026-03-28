@@ -1,6 +1,6 @@
 # Kim - Kotlin Image Metadata
 
-[![Kotlin](https://img.shields.io/badge/kotlin-2.2.0-blue.svg?logo=kotlin)](httpw://kotlinlang.org)
+[![Kotlin](https://img.shields.io/badge/kotlin-2.3.20-blue.svg?logo=kotlin)](httpw://kotlinlang.org)
 ![JVM](https://img.shields.io/badge/-JVM-gray.svg?style=flat)
 ![Android](https://img.shields.io/badge/-Android-gray.svg?style=flat)
 ![iOS](https://img.shields.io/badge/-iOS-gray.svg?style=flat)
@@ -11,8 +11,6 @@
 ![WASM](https://img.shields.io/badge/-WASM-gray.svg?style=flat)
 
 Kim is a Kotlin Multiplatform library for reading and writing image metadata.
-
-It's part of [Ashampoo Photo Organizer](https://ashampoo.com/photo-organizer).
 
 ## Features
 
@@ -29,17 +27,14 @@ It's part of [Ashampoo Photo Organizer](https://ashampoo.com/photo-organizer).
     + API for preview image extraction of DNG, CR2, CR3, RAF, NEF, ARW & RW2
 * GIF: Read & Write XMP
 * Handling of XMP content through
-  [XMP Core for Kotlin Multiplatform](https://github.com/Ashampoo/xmpcore)
+  [XMP Core for Kotlin Multiplatform](https://github.com/StefanOltmann/xmpcore)
 * Convenient `Kim.update()` API to perform updates to the relevant places
     + JPG: Lossless rotation by modifying only one byte (where present)
-
-The future development of features on our part is driven entirely by the needs
-of Ashampoo Photo Organizer, which, in turn, is driven by user community feedback.
 
 ## Installation
 
 ```
-implementation("com.ashampoo:kim:0.26.2")
+implementation("de.stefan-oltmann:kim:0.27.0")
 ```
 
 For the targets `wasmJs` & `js` you also need to specify this:
@@ -75,7 +70,7 @@ println("Taken date: $takenDate")
 
 ### Create high level summary object
 
-This creates an instance of [PhotoMetadata](src/commonMain/kotlin/com/ashampoo/kim/model/PhotoMetadata.kt).
+This creates an instance of [PhotoMetadata](src/commonMain/kotlin/de/stefan_oltmann/kim/model/PhotoMetadata.kt).
 It contains the following:
 
 - Image size
@@ -136,7 +131,7 @@ val newBytes = Kim.update(
 )
 ```
 
-See [AbstractUpdaterTest](src/commonTest/kotlin/com/ashampoo/kim/format/AbstractUpdaterTest.kt) for more samples.
+See [AbstractUpdaterTest](src/commonTest/kotlin/de/stefan_oltmann/kim/format/AbstractUpdaterTest.kt) for more samples.
 
 ### Update thumbnail using Kim.update() API
 
@@ -156,7 +151,7 @@ See the [Java example project](examples/kim-java-sample/src/main/java/Main.java)
 
 ## Limitations
 
-* Inability to update EXIF, IPTC and XMP in JPG files simultaneously.
+* Inability to update EXIF, IPTC, and XMP in JPG files simultaneously.
 * Does not read the image size and orientation for HEIC, AVIF & JPEG XL.
 * Does not read brotli compressed metadata of JPEG XL due to missing brotli KMP libs.
 * MakerNote support is experimental and limited.
@@ -175,7 +170,7 @@ This approach extends to AVIF images, as they repurpose the same boxes.
 
 ## Contributions
 
-Contributions to Ashampoo Kim are welcome! If you encounter any issues,
+Contributions to Kim are welcome! If you encounter any issues,
 have suggestions for improvements, or would like to contribute new features,
 please feel free to submit a pull request.
 

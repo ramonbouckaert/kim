@@ -25,4 +25,4 @@
 /.kotlin/
 /build/
 /local.properties
-/src/commonTest/resources/com/ashampoo/kim/testdata/full/*.html
+/src/commonTest/resources/de/stefan_oltmann/kim/testdata/full/*.html

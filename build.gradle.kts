@@ -21,10 +21,10 @@ repositories {
     mavenCentral()
 }
 
-val productName: String = "Ashampoo Kim"
+val productName: String = "Kim"
 
-description = productName
-group = "com.ashampoo"
+group = "de.stefan_oltmann.kim"
+description = "Kotlin Image Metadata manipulation library"
 version = "0.0.0"
 
 gitVersioning.apply {
@@ -85,7 +85,7 @@ kotlin {
         binaries {
             executable(setOf(NativeBuildType.RELEASE)) {
                 baseName = "kim"
-                entryPoint = "com.ashampoo.kim.main"
+                entryPoint = "de.stefan_oltmann.kim.main"
             }
             staticLib(namePrefix = "", setOf(NativeBuildType.RELEASE)) {
                 baseName = "kim"
@@ -96,7 +96,7 @@ kotlin {
     linuxX64 {
         binaries {
             executable(setOf(NativeBuildType.RELEASE)) {
-                entryPoint = "com.ashampoo.kim.main"
+                entryPoint = "de.stefan_oltmann.kim.main"
             }
             staticLib(namePrefix = "", setOf(NativeBuildType.RELEASE)) {
                 baseName = "kim"
@@ -107,7 +107,7 @@ kotlin {
     linuxArm64 {
         binaries {
             executable(setOf(NativeBuildType.RELEASE)) {
-                entryPoint = "com.ashampoo.kim.main"
+                entryPoint = "de.stefan_oltmann.kim.main"
             }
             staticLib(namePrefix = "", setOf(NativeBuildType.RELEASE)) {
                 baseName = "kim"
@@ -151,7 +151,11 @@ kotlin {
             /* Kotlin Test */
             implementation(kotlin("test"))
 
+            /* Multiplatform file access */
             implementation(libs.kotlinx.io.core)
+
+            /* Test resources */
+            implementation(libs.resources)
         }
     }
 
@@ -165,13 +169,12 @@ kotlin {
         /* Apple Silicon iOS Simulator */
         iosSimulatorArm64(),
         /* macOS Devices */
-        macosX64(),
         macosArm64()
     ).forEach {
 
         it.binaries.executable(setOf(NativeBuildType.RELEASE)) {
             baseName = "kim"
-            entryPoint = "com.ashampoo.kim.main"
+            entryPoint = "de.stefan_oltmann.kim.main"
         }
 
         it.binaries.framework(
@@ -246,7 +249,6 @@ kotlin {
     val iosArm64Main by sourceSets.getting
     val iosX64Main by sourceSets.getting
     val iosSimulatorArm64Main by sourceSets.getting
-    val macosX64Main by sourceSets.getting
     val macosArm64Main by sourceSets.getting
 
     @Suppress("UnusedPrivateMember") // False positive
@@ -259,14 +261,12 @@ kotlin {
         iosArm64Main.dependsOn(this)
         iosX64Main.dependsOn(this)
         iosSimulatorArm64Main.dependsOn(this)
-        macosX64Main.dependsOn(this)
         macosArm64Main.dependsOn(this)
     }
 
     val iosArm64Test by sourceSets.getting
     val iosX64Test by sourceSets.getting
     val iosSimulatorArm64Test by sourceSets.getting
-    val macosX64Test by sourceSets.getting
     val macosArm64Test by sourceSets.getting
 
     @Suppress("UnusedPrivateMember") // False positive
@@ -277,7 +277,6 @@ kotlin {
         iosArm64Test.dependsOn(this)
         iosX64Test.dependsOn(this)
         iosSimulatorArm64Test.dependsOn(this)
-        macosX64Test.dependsOn(this)
         macosArm64Test.dependsOn(this)
     }
 
@@ -324,7 +323,7 @@ tasks.getByPath("build").finalizedBy(writeVersion)
 // region Android setup
 android {
 
-    namespace = "com.ashampoo.kim"
+    namespace = "de.stefan_oltmann.kim"
 
     compileSdk = libs.versions.android.compile.sdk.get().toInt()
     buildToolsVersion = libs.versions.android.build.tools.get()
@@ -361,7 +360,7 @@ mavenPublishing {
         signAllPublications()
 
     coordinates(
-        groupId = "com.ashampoo",
+        groupId = "de.stefan-oltmann",
         artifactId = "kim",
         version = version.toString()
     )
@@ -370,7 +369,7 @@ mavenPublishing {
 
         name = productName
         description = "Kotlin Multiplatform library for image metadata manipulation"
-        url = "https://github.com/Software-Rangers/kim"
+        url = "https://github.com/StefanOltmann/kim"
 
         licenses {
             license {
@@ -379,25 +378,18 @@ mavenPublishing {
             }
         }
 
-        organization {
-            name = "Software Rangers GmbH"
-            url = "https://software-rangers.com/"
-        }
-
         developers {
             developer {
                 name = "Stefan Oltmann"
                 url = "https://stefan-oltmann.de/"
-                organization = "Software Rangers GmbH"
-                organizationUrl = "https://software-rangers.com/"
                 roles = listOf("maintainer", "developer")
                 properties = mapOf("github" to "StefanOltmann")
             }
         }
 
         scm {
-            url = "https://github.com/Software-Rangers/kim"
-            connection = "scm:git:git://github.com/Software-Rangers/kim.git"
+            url = "https://github.com/StefanOltmann/kim"
+            connection = "scm:git:git://github.com/StefanOltmann/kim.git"
         }
     }
 }

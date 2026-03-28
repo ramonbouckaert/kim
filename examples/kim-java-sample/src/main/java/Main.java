@@ -1,10 +1,10 @@
-import com.ashampoo.kim.Kim;
-import com.ashampoo.kim.format.ImageMetadata;
-import com.ashampoo.kim.input.ByteReader;
-import com.ashampoo.kim.input.JvmInputStreamByteReader;
-import com.ashampoo.kim.jvm.KimJvm;
-import com.ashampoo.kim.model.MetadataUpdate;
-import com.ashampoo.kim.output.ByteArrayByteWriter;
+import de.stefan_oltmann.kim.Kim;
+import de.stefan_oltmann.kim.format.ImageMetadata;
+import de.stefan_oltmann.kim.input.ByteReader;
+import de.stefan_oltmann.kim.input.JvmInputStreamByteReader;
+import de.stefan_oltmann.kim.jvm.KimJvm;
+import de.stefan_oltmann.kim.model.MetadataUpdate;
+import de.stefan_oltmann.kim.output.ByteArrayByteWriter;
 
 import java.io.File;
 import java.io.FileInputStream;

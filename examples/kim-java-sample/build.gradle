@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-group = 'com.ashampoo'
+group = 'de.stefan-oltmann'
 version = '1.0-SNAPSHOT'
 
 repositories {
@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.ashampoo:kim:0.18.4'
+    implementation 'de.stefan-oltmann:kim:0.27.0'
 }
 
 // Needed to make it work for the Gradle java plugin

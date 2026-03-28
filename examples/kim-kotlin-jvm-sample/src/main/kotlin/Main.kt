@@ -1,20 +1,20 @@
-import com.ashampoo.kim.Kim
-import com.ashampoo.kim.common.writeBytes
-import com.ashampoo.kim.format.jpeg.JpegRewriter
-import com.ashampoo.kim.format.tiff.TiffContents
-import com.ashampoo.kim.format.tiff.TiffReader
-import com.ashampoo.kim.format.tiff.constant.ExifTag
-import com.ashampoo.kim.format.tiff.constant.GeoTiffTag
-import com.ashampoo.kim.format.tiff.write.TiffOutputSet
-import com.ashampoo.kim.format.tiff.write.TiffWriterLossy
-import com.ashampoo.kim.input.DefaultRandomAccessByteReader
-import com.ashampoo.kim.input.JvmInputStreamByteReader
-import com.ashampoo.kim.input.KotlinIoSourceByteReader
-import com.ashampoo.kim.input.use
-import com.ashampoo.kim.jvm.readMetadata
-import com.ashampoo.kim.model.MetadataUpdate
-import com.ashampoo.kim.output.ByteArrayByteWriter
-import com.ashampoo.kim.output.OutputStreamByteWriter
+import de.stefan_oltmann.kim.Kim
+import de.stefan_oltmann.kim.common.writeBytes
+import de.stefan_oltmann.kim.format.jpeg.JpegRewriter
+import de.stefan_oltmann.kim.format.tiff.TiffContents
+import de.stefan_oltmann.kim.format.tiff.TiffReader
+import de.stefan_oltmann.kim.format.tiff.constant.ExifTag
+import de.stefan_oltmann.kim.format.tiff.constant.GeoTiffTag
+import de.stefan_oltmann.kim.format.tiff.write.TiffOutputSet
+import de.stefan_oltmann.kim.format.tiff.write.TiffWriterLossy
+import de.stefan_oltmann.kim.input.DefaultRandomAccessByteReader
+import de.stefan_oltmann.kim.input.JvmInputStreamByteReader
+import de.stefan_oltmann.kim.input.KotlinIoSourceByteReader
+import de.stefan_oltmann.kim.input.use
+import de.stefan_oltmann.kim.jvm.readMetadata
+import de.stefan_oltmann.kim.model.MetadataUpdate
+import de.stefan_oltmann.kim.output.ByteArrayByteWriter
+import de.stefan_oltmann.kim.output.OutputStreamByteWriter
 import java.io.File
 
 fun main() {

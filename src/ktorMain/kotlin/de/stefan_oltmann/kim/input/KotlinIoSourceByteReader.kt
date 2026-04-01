@@ -30,6 +30,10 @@ public class KotlinIoSourceByteReader(
 
     private var position = 0
 
+    /*
+     * Attention: `Source.remaining` returns 0 for unbuffered or streaming sources,
+     * so we need this to be specified.
+     */
     private val remainingByteCount: Int
         get() = (contentLength - position).toInt()
 

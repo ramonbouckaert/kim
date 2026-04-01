@@ -34,7 +34,7 @@ Kim is a Kotlin Multiplatform library for reading and writing image metadata.
 ## Installation
 
 ```
-implementation("de.stefan-oltmann:kim:0.27.0")
+implementation("de.stefan-oltmann:kim:0.28.0")
 ```
 
 For the targets `wasmJs` & `js` you also need to specify this:
@@ -48,8 +48,8 @@ implementation(npm("pako", "2.1.0"))
 ### Read metadata
 
 `Kim.readMetadata()` takes `kotlin.ByteArray` on all platforms and depending on
-the platform also `kotlinx.io.files.Path`, Ktor `Source` & `ByteReadChannel`,
-`java.io.File`, `java.io.InputStream`, `NSData` and `String` paths.
+the platform also `kotlinx.io.files.Path`, `kotlinx.io.Source` (for usage with Ktor) & `ByteReadChannel`,
+`java.io.File`, `java.io.InputStream`, `NSData` (iOS) and `String` paths.
 
 ```kotlin
 val bytes: ByteArray = loadBytes()

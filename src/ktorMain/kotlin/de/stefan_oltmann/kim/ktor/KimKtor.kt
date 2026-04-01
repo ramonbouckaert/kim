@@ -18,8 +18,8 @@ package de.stefan_oltmann.kim.ktor
 import de.stefan_oltmann.kim.Kim
 import de.stefan_oltmann.kim.common.ImageReadException
 import de.stefan_oltmann.kim.format.ImageMetadata
+import de.stefan_oltmann.kim.input.KotlinIoSourceByteReader
 import de.stefan_oltmann.kim.input.KtorByteReadChannelByteReader
-import de.stefan_oltmann.kim.input.KtorInputByteReader
 import io.ktor.utils.io.ByteReadChannel
 import kotlinx.io.Source
 import kotlin.jvm.JvmStatic
@@ -31,8 +31,8 @@ public object KimKtor {
 
     @JvmStatic
     @Throws(ImageReadException::class)
-    public fun readMetadata(source: Source): ImageMetadata? =
-        Kim.readMetadata(KtorInputByteReader(source))
+    public fun readMetadata(source: Source, contentLength: Long): ImageMetadata? =
+        Kim.readMetadata(KotlinIoSourceByteReader(source, contentLength))
 
     @JvmStatic
     @Throws(ImageReadException::class)
@@ -41,8 +41,8 @@ public object KimKtor {
 }
 
 @Throws(ImageReadException::class)
-public fun Kim.readMetadata(source: Source): ImageMetadata? =
-    KimKtor.readMetadata(source)
+public fun Kim.readMetadata(source: Source, contentLength: Long): ImageMetadata? =
+    KimKtor.readMetadata(source, contentLength)
 
 @Throws(ImageReadException::class)
 public fun Kim.readMetadata(byteReadChannel: ByteReadChannel, contentLength: Long): ImageMetadata? =

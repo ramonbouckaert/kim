@@ -22,7 +22,7 @@ import android.os.Build
 import de.stefan_oltmann.kim.Kim
 import de.stefan_oltmann.kim.common.ImageReadException
 import de.stefan_oltmann.kim.common.ImageWriteException
-import de.stefan_oltmann.kim.format.ImageMetadata
+import de.stefan_oltmann.kim.format.MediaMetadata
 import de.stefan_oltmann.kim.input.AndroidInputStreamByteReader
 import de.stefan_oltmann.kim.input.ByteReader
 import de.stefan_oltmann.kim.output.ByteWriter
@@ -37,7 +37,7 @@ public object KimAndroid {
 
     @JvmStatic
     @Throws(ImageReadException::class)
-    public fun readMetadata(inputStream: InputStream, length: Long): ImageMetadata? =
+    public fun readMetadata(inputStream: InputStream, length: Long): MediaMetadata? =
         Kim.readMetadata(
             byteReader = AndroidInputStreamByteReader(
                 inputStream = inputStream,
@@ -47,12 +47,12 @@ public object KimAndroid {
 
     @JvmStatic
     @Throws(ImageReadException::class)
-    public fun readMetadata(path: String): ImageMetadata? =
+    public fun readMetadata(path: String): MediaMetadata? =
         readMetadata(File(path))
 
     @JvmStatic
     @Throws(ImageReadException::class)
-    public fun readMetadata(file: File): ImageMetadata? {
+    public fun readMetadata(file: File): MediaMetadata? {
 
         if (!file.exists())
             throw ImageReadException("File does not exist: $file")
@@ -69,7 +69,7 @@ public object KimAndroid {
         context: Context,
         uri: String,
         length: Long? = null
-    ): ImageMetadata? =
+    ): MediaMetadata? =
         Kim.readMetadata(
             byteReader = createByteReader(
                 contentResolver = context.contentResolver,
@@ -84,7 +84,7 @@ public object KimAndroid {
         contentResolver: ContentResolver,
         uri: String,
         length: Long? = null
-    ): ImageMetadata? =
+    ): MediaMetadata? =
         Kim.readMetadata(
             byteReader = createByteReader(
                 contentResolver = contentResolver,
@@ -209,15 +209,15 @@ public object KimAndroid {
 }
 
 @Throws(ImageReadException::class)
-public fun Kim.readMetadata(inputStream: InputStream, length: Long): ImageMetadata? =
+public fun Kim.readMetadata(inputStream: InputStream, length: Long): MediaMetadata? =
     KimAndroid.readMetadata(inputStream, length)
 
 @Throws(ImageReadException::class)
-public fun Kim.readMetadata(path: String): ImageMetadata? =
+public fun Kim.readMetadata(path: String): MediaMetadata? =
     KimAndroid.readMetadata(path)
 
 @Throws(ImageReadException::class)
-public fun Kim.readMetadata(file: File): ImageMetadata? =
+public fun Kim.readMetadata(file: File): MediaMetadata? =
     KimAndroid.readMetadata(file)
 
 @Throws(ImageReadException::class)
@@ -225,7 +225,7 @@ public fun Kim.readMetadata(
     context: Context,
     uri: String,
     length: Long? = null
-): ImageMetadata? =
+): MediaMetadata? =
     KimAndroid.readMetadata(context, uri, length)
 
 @Throws(ImageReadException::class)
@@ -233,5 +233,5 @@ public fun Kim.readMetadata(
     contentResolver: ContentResolver,
     uri: String,
     length: Long? = null
-): ImageMetadata? =
+): MediaMetadata? =
     KimAndroid.readMetadata(contentResolver, uri, length)

@@ -19,8 +19,8 @@ package de.stefan_oltmann.kim.format.xmp
 import de.stefan_oltmann.kim.Kim
 import de.stefan_oltmann.kim.model.GpsCoordinates
 import de.stefan_oltmann.kim.model.LocationShown
-import de.stefan_oltmann.kim.model.PhotoMetadata
-import de.stefan_oltmann.kim.model.PhotoRating
+import de.stefan_oltmann.kim.model.MetadataSummary
+import de.stefan_oltmann.kim.model.ExifRating
 import de.stefan_oltmann.kim.model.TiffOrientation
 import de.stefan_oltmann.kim.testdata.KimTestData
 import de.stefan_oltmann.xmp.XMPRegionArea
@@ -41,10 +41,10 @@ class XmpReaderTest {
         val xmp = KimTestData.getXmp("acdsee_sample.xmp")
 
         assertEquals(
-            expected = PhotoMetadata(
+            expected = MetadataSummary(
                 orientation = TiffOrientation.STANDARD,
                 takenDate = 1_664_279_361_000,
-                rating = PhotoRating.THREE_STARS,
+                rating = ExifRating.THREE_STARS,
                 keywords = setOf("Braut", "Bräutigam", "Paar", "After-Party")
             ),
             actual = XmpReader.readMetadata(xmp)
@@ -57,7 +57,7 @@ class XmpReaderTest {
         val xmp = KimTestData.getXmp("digikam_sample.xmp")
 
         assertEquals(
-            expected = PhotoMetadata(
+            expected = MetadataSummary(
                 orientation = TiffOrientation.STANDARD,
                 takenDate = 1_664_279_361_000,
                 description = "Standard caption",
@@ -72,7 +72,7 @@ class XmpReaderTest {
                     state = "Niedersachsen",
                     country = "Germany"
                 ),
-                rating = PhotoRating.FOUR_STARS,
+                rating = ExifRating.FOUR_STARS,
                 keywords = setOf("Pflanze", "Ecke", "MacBook"),
                 faces = mapOf(
                     "MacBook" to XMPRegionArea(0.581172, 0.66247, 0.583093, 0.502398)
@@ -88,10 +88,10 @@ class XmpReaderTest {
         val xmp = KimTestData.getXmp("exiftool_sample.xmp")
 
         assertEquals(
-            expected = PhotoMetadata(
+            expected = MetadataSummary(
                 takenDate = 1_540_041_598_000,
                 description = "orange fox walking on street",
-                rating = PhotoRating.THREE_STARS,
+                rating = ExifRating.THREE_STARS,
                 keywords = setOf(
                     "\"fuchs\"",
                     "<HALLO>",
@@ -116,7 +116,7 @@ class XmpReaderTest {
         val xmp = KimTestData.getXmp("mylio_sample.xmp")
 
         assertEquals(
-            expected = PhotoMetadata(
+            expected = MetadataSummary(
                 orientation = TiffOrientation.STANDARD,
                 takenDate = 1_456_064_625_420,
                 gpsCoordinates = GpsCoordinates(
@@ -125,7 +125,7 @@ class XmpReaderTest {
                 ),
                 title = "sample title",
                 description = "This is the description",
-                rating = PhotoRating.REJECTED,
+                rating = ExifRating.REJECTED,
                 keywords = setOf("animal", "bird"),
                 faces = mapOf(
                     "Eye Left" to XMPRegionArea(0.295179, 0.278880, 0.033245, 0.05),
@@ -144,9 +144,9 @@ class XmpReaderTest {
         val xmp = KimTestData.getXmp("narrative_sample.xmp")
 
         assertEquals(
-            expected = PhotoMetadata(
+            expected = MetadataSummary(
                 orientation = TiffOrientation.ROTATE_RIGHT,
-                rating = PhotoRating.FOUR_STARS,
+                rating = ExifRating.FOUR_STARS,
                 keywords = emptySet(),
                 faces = emptyMap(),
                 personsInImage = emptySet()
@@ -161,10 +161,10 @@ class XmpReaderTest {
         val xmp = KimTestData.getXmp("narrative_from_mylio_sample.xmp")
 
         assertEquals(
-            expected = PhotoMetadata(
+            expected = MetadataSummary(
                 takenDate = 1_540_041_598_620,
                 description = "orange fox walking on street",
-                rating = PhotoRating.FIVE_STARS,
+                rating = ExifRating.FIVE_STARS,
                 keywords = setOf(
                     "\"fuchs\"",
                     "<HALLO>",

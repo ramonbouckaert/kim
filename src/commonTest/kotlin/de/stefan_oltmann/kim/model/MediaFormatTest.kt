@@ -1,0 +1,312 @@
+/*
+ * Copyright 2025 Ashampoo GmbH & Co. KG
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package de.stefan_oltmann.kim.model
+
+import de.stefan_oltmann.kim.testdata.KimTestData
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNull
+
+class MediaFormatTest {
+
+    @Test
+    fun testDetect() {
+
+        for (index in 1..KimTestData.TEST_MEDIA_COUNT) {
+
+            val expectedFileType = when {
+                index <= KimTestData.HIGHEST_JPEG_INDEX -> MediaFormat.JPEG
+                index == KimTestData.GIF_TEST_IMAGE_INDEX -> MediaFormat.GIF
+                index == KimTestData.WEBP_TEST_IMAGE_INDEX -> MediaFormat.WEBP
+                index == KimTestData.PNG_TEST_IMAGE_INDEX -> MediaFormat.PNG
+                index == KimTestData.TIFF_NONE_TEST_IMAGE_INDEX -> MediaFormat.TIFF
+                index == KimTestData.TIFF_ZIP_TEST_IMAGE_INDEX -> MediaFormat.TIFF
+                index == KimTestData.TIFF_LZW_TEST_IMAGE_INDEX -> MediaFormat.TIFF
+                index == KimTestData.PNG_APPLE_PREVIEW_TEST_IMAGE_INDEX -> MediaFormat.PNG
+                index == KimTestData.PNG_GIMP_TEST_IMAGE_INDEX -> MediaFormat.PNG
+                index == KimTestData.CR2_TEST_IMAGE_INDEX -> MediaFormat.CR2
+                index == KimTestData.RAF_TEST_IMAGE_INDEX -> MediaFormat.RAF
+                index == KimTestData.RW2_TEST_IMAGE_INDEX -> MediaFormat.RW2
+                index == KimTestData.ORF_TEST_IMAGE_INDEX -> MediaFormat.ORF
+                /* NEF, ARW and DNG do not have unique magic bytes and recognized as TIFF. */
+                index == KimTestData.NEF_TEST_IMAGE_INDEX -> MediaFormat.TIFF
+                index == KimTestData.ARW_TEST_IMAGE_INDEX -> MediaFormat.TIFF
+                index == KimTestData.DNG_CR2_TEST_IMAGE_INDEX -> MediaFormat.TIFF
+                index == KimTestData.DNG_RAF_TEST_IMAGE_INDEX -> MediaFormat.TIFF
+                index == KimTestData.DNG_NEF_TEST_IMAGE_INDEX -> MediaFormat.TIFF
+                index == KimTestData.DNG_ARW_TEST_IMAGE_INDEX -> MediaFormat.TIFF
+                index == KimTestData.DNG_RW2_TEST_IMAGE_INDEX -> MediaFormat.TIFF
+                index == KimTestData.DNG_ORF_TEST_IMAGE_INDEX -> MediaFormat.TIFF
+                index == KimTestData.HEIC_TEST_IMAGE_INDEX -> MediaFormat.HEIC
+                index == KimTestData.HIF_TEST_IMAGE_INDEX -> MediaFormat.HEIC
+                index == KimTestData.HEIC_TEST_IMAGE_WITH_XMP_INDEX -> MediaFormat.HEIC
+                index == KimTestData.AVIF_TEST_IMAGE_FROM_JPG_USING_IMAGEMAGICK_INDEX -> MediaFormat.AVIF
+                index == KimTestData.HEIC_TEST_IMAGE_FROM_JPG_USING_IMAGEMAGICK_INDEX -> MediaFormat.HEIC
+                index == KimTestData.HEIC_TEST_IMAGE_FROM_JPG_USING_APPLE_INDEX -> MediaFormat.HEIC
+                index == KimTestData.HEIC_TEST_IMAGE_FROM_SAMSUNG_INDEX -> MediaFormat.HEIC
+                index == KimTestData.JXL_CONTAINER_DARKTABLE_INDEX -> MediaFormat.JXL
+                index == KimTestData.JXL_CONTAINER_UNCOMPRESSED_INDEX -> MediaFormat.JXL
+                index == KimTestData.JXL_CONTAINER_COMPRESSED_INDEX -> MediaFormat.JXL
+                index == KimTestData.GEOTIFF_PIXEL_SCALING_INDEX -> MediaFormat.TIFF
+                index == KimTestData.GEOTIFF_AFFINE_TRANSFORM_INDEX -> MediaFormat.TIFF
+                index == KimTestData.CR3_TEST_IMAGE_INDEX -> MediaFormat.CR3
+                index == KimTestData.MP4_TEST_VIDEO_INDEX -> MediaFormat.MP4
+                index == KimTestData.MOV_TEST_VIDEO_INDEX -> MediaFormat.MOV
+                else -> null
+            }
+
+            val bytes = KimTestData.getBytesOf(index)
+
+            val actualFileType = MediaFormat.detect(bytes)
+
+            assertEquals(expectedFileType, actualFileType, "Media $index has a different type.")
+        }
+    }
+
+    @Test
+    fun testByMimeType() {
+
+        assertNull(MediaFormat.byMimeType("invalid"))
+
+        assertEquals(
+            expected = MediaFormat.JPEG,
+            actual = MediaFormat.byMimeType("image/jpeg")
+        )
+
+        assertEquals(
+            expected = MediaFormat.GIF,
+            actual = MediaFormat.byMimeType("image/gif")
+        )
+
+        assertEquals(
+            expected = MediaFormat.PNG,
+            actual = MediaFormat.byMimeType("image/png")
+        )
+
+        assertEquals(
+            expected = MediaFormat.WEBP,
+            actual = MediaFormat.byMimeType("image/webp")
+        )
+
+        assertEquals(
+            expected = MediaFormat.TIFF,
+            actual = MediaFormat.byMimeType("image/tiff")
+        )
+
+        assertEquals(
+            expected = MediaFormat.HEIC,
+            actual = MediaFormat.byMimeType("image/heic")
+        )
+
+        assertEquals(
+            expected = MediaFormat.CR2,
+            actual = MediaFormat.byMimeType("image/x-canon-cr2")
+        )
+
+        /* OneDrive returns this wrong mime type. */
+        assertEquals(
+            expected = MediaFormat.CR2,
+            actual = MediaFormat.byMimeType("image/CR2")
+        )
+
+        assertEquals(
+            expected = MediaFormat.RAF,
+            actual = MediaFormat.byMimeType("image/x-fuji-raf")
+        )
+
+        assertEquals(
+            expected = MediaFormat.NEF,
+            actual = MediaFormat.byMimeType("image/x-nikon-nef")
+        )
+
+        assertEquals(
+            expected = MediaFormat.ARW,
+            actual = MediaFormat.byMimeType("image/x-sony-arw")
+        )
+
+        assertEquals(
+            expected = MediaFormat.RW2,
+            actual = MediaFormat.byMimeType("image/x-panasonic-rw2")
+        )
+
+        assertEquals(
+            expected = MediaFormat.ORF,
+            actual = MediaFormat.byMimeType("image/x-olympus-orf")
+        )
+
+        assertEquals(
+            expected = MediaFormat.DNG,
+            actual = MediaFormat.byMimeType("image/x-adobe-dng")
+        )
+    }
+
+    @Test
+    fun testByUniformTypeIdentifier() {
+
+        assertNull(MediaFormat.byUniformTypeIdentifier("invalid"))
+
+        assertEquals(
+            expected = MediaFormat.JPEG,
+            actual = MediaFormat.byUniformTypeIdentifier("public.jpeg")
+        )
+
+        assertEquals(
+            expected = MediaFormat.GIF,
+            actual = MediaFormat.byUniformTypeIdentifier("com.compuserve.gif")
+        )
+
+        assertEquals(
+            expected = MediaFormat.PNG,
+            actual = MediaFormat.byUniformTypeIdentifier("public.png")
+        )
+
+        assertEquals(
+            expected = MediaFormat.WEBP,
+            actual = MediaFormat.byUniformTypeIdentifier("org.webmproject.webp")
+        )
+
+        assertEquals(
+            expected = MediaFormat.TIFF,
+            actual = MediaFormat.byUniformTypeIdentifier("public.tiff")
+        )
+
+        assertEquals(
+            expected = MediaFormat.HEIC,
+            actual = MediaFormat.byUniformTypeIdentifier("public.heic")
+        )
+
+        assertEquals(
+            expected = MediaFormat.CR2,
+            actual = MediaFormat.byUniformTypeIdentifier("com.canon.cr2-raw-image")
+        )
+
+        assertEquals(
+            expected = MediaFormat.RAF,
+            actual = MediaFormat.byUniformTypeIdentifier("com.fuji.raw-image")
+        )
+
+        assertEquals(
+            expected = MediaFormat.NEF,
+            actual = MediaFormat.byUniformTypeIdentifier("com.nikon.raw-image")
+        )
+
+        assertEquals(
+            expected = MediaFormat.ARW,
+            actual = MediaFormat.byUniformTypeIdentifier("com.sony.raw-image")
+        )
+
+        assertEquals(
+            expected = MediaFormat.RW2,
+            actual = MediaFormat.byUniformTypeIdentifier("com.panasonic.raw-image")
+        )
+
+        assertEquals(
+            expected = MediaFormat.ORF,
+            actual = MediaFormat.byUniformTypeIdentifier("com.olympus.raw-image")
+        )
+
+        assertEquals(
+            expected = MediaFormat.DNG,
+            actual = MediaFormat.byUniformTypeIdentifier("com.adobe.raw-image")
+        )
+    }
+
+    @Test
+    fun testByFileNameExtension() {
+
+        assertNull(MediaFormat.byFileNameExtension("invalid"))
+
+        assertEquals(
+            expected = MediaFormat.JPEG,
+            actual = MediaFormat.byFileNameExtension("image.jpeg")
+        )
+
+        assertEquals(
+            expected = MediaFormat.JPEG,
+            actual = MediaFormat.byFileNameExtension("image.jpg")
+        )
+
+        assertEquals(
+            expected = MediaFormat.JPEG,
+            actual = MediaFormat.byFileNameExtension("image.JPG")
+        )
+
+        assertEquals(
+            expected = MediaFormat.GIF,
+            actual = MediaFormat.byFileNameExtension("image.gif")
+        )
+
+        assertEquals(
+            expected = MediaFormat.PNG,
+            actual = MediaFormat.byFileNameExtension("image.png")
+        )
+
+        assertEquals(
+            expected = MediaFormat.WEBP,
+            actual = MediaFormat.byFileNameExtension("image.webp")
+        )
+
+        assertEquals(
+            expected = MediaFormat.TIFF,
+            actual = MediaFormat.byFileNameExtension("image.tif")
+        )
+
+        assertEquals(
+            expected = MediaFormat.TIFF,
+            actual = MediaFormat.byFileNameExtension("image.tiff")
+        )
+
+        assertEquals(
+            expected = MediaFormat.HEIC,
+            actual = MediaFormat.byFileNameExtension("image.heic")
+        )
+
+        assertEquals(
+            expected = MediaFormat.CR2,
+            actual = MediaFormat.byFileNameExtension("image.cr2")
+        )
+
+        assertEquals(
+            expected = MediaFormat.RAF,
+            actual = MediaFormat.byFileNameExtension("image.raf")
+        )
+
+        assertEquals(
+            expected = MediaFormat.NEF,
+            actual = MediaFormat.byFileNameExtension("image.nef")
+        )
+
+        assertEquals(
+            expected = MediaFormat.ARW,
+            actual = MediaFormat.byFileNameExtension("image.arw")
+        )
+
+        assertEquals(
+            expected = MediaFormat.RW2,
+            actual = MediaFormat.byFileNameExtension("image.rw2")
+        )
+
+        assertEquals(
+            expected = MediaFormat.ORF,
+            actual = MediaFormat.byFileNameExtension("image.orf")
+        )
+
+        assertEquals(
+            expected = MediaFormat.DNG,
+            actual = MediaFormat.byFileNameExtension("image.dng")
+        )
+    }
+}

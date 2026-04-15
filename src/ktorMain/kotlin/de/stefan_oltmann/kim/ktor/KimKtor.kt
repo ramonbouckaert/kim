@@ -17,7 +17,7 @@ package de.stefan_oltmann.kim.ktor
 
 import de.stefan_oltmann.kim.Kim
 import de.stefan_oltmann.kim.common.ImageReadException
-import de.stefan_oltmann.kim.format.ImageMetadata
+import de.stefan_oltmann.kim.format.MediaMetadata
 import de.stefan_oltmann.kim.input.KotlinIoSourceByteReader
 import de.stefan_oltmann.kim.input.KtorByteReadChannelByteReader
 import io.ktor.utils.io.ByteReadChannel
@@ -31,19 +31,19 @@ public object KimKtor {
 
     @JvmStatic
     @Throws(ImageReadException::class)
-    public fun readMetadata(source: Source, contentLength: Long): ImageMetadata? =
+    public fun readMetadata(source: Source, contentLength: Long): MediaMetadata? =
         Kim.readMetadata(KotlinIoSourceByteReader(source, contentLength))
 
     @JvmStatic
     @Throws(ImageReadException::class)
-    public fun readMetadata(byteReadChannel: ByteReadChannel, contentLength: Long): ImageMetadata? =
+    public fun readMetadata(byteReadChannel: ByteReadChannel, contentLength: Long): MediaMetadata? =
         Kim.readMetadata(KtorByteReadChannelByteReader(byteReadChannel, contentLength))
 }
 
 @Throws(ImageReadException::class)
-public fun Kim.readMetadata(source: Source, contentLength: Long): ImageMetadata? =
+public fun Kim.readMetadata(source: Source, contentLength: Long): MediaMetadata? =
     KimKtor.readMetadata(source, contentLength)
 
 @Throws(ImageReadException::class)
-public fun Kim.readMetadata(byteReadChannel: ByteReadChannel, contentLength: Long): ImageMetadata? =
+public fun Kim.readMetadata(byteReadChannel: ByteReadChannel, contentLength: Long): MediaMetadata? =
     KimKtor.readMetadata(byteReadChannel, contentLength)

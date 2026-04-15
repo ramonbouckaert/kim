@@ -29,7 +29,7 @@ object KimTestData {
 
     private const val RESOURCE_PATH: String = "de/stefan_oltmann/kim/testdata"
 
-    const val TEST_PHOTO_COUNT: Int = 83
+    const val TEST_MEDIA_COUNT: Int = 85
     const val HIGHEST_JPEG_INDEX: Int = 50
 
     const val PNG_TEST_IMAGE_INDEX: Int = 51
@@ -65,9 +65,11 @@ object KimTestData {
     const val GEOTIFF_PIXEL_SCALING_INDEX: Int = 81
     const val GEOTIFF_AFFINE_TRANSFORM_INDEX: Int = 82
     const val CR3_TEST_IMAGE_INDEX: Int = 83
+    const val MP4_TEST_VIDEO_INDEX: Int = 84
+    const val MOV_TEST_VIDEO_INDEX: Int = 85
 
     @Suppress("MagicNumber")
-    val photoIdsWithExifThumbnail: Set<Int> = setOf(
+    val mediaIdsWithExifThumbnail: Set<Int> = setOf(
         2, 3, 4, 5, 6, 7, 10, 12, 15, 16, 19, 20, 21,
         22, 24, 25, 27, 28, 29, 30, 31, 32, 33, 35, 37,
         38, 39, 40, 41, 42, 46, 48, 49, 50,
@@ -144,10 +146,12 @@ object KimTestData {
         GEOTIFF_PIXEL_SCALING_INDEX -> "tif"
         GEOTIFF_AFFINE_TRANSFORM_INDEX -> "tif"
         CR3_TEST_IMAGE_INDEX -> "cr3"
+        MP4_TEST_VIDEO_INDEX -> "mp4"
+        MOV_TEST_VIDEO_INDEX -> "mov"
         else -> "jpg"
     }
 
-    fun getFileName(index: Int): String = "photo_$index.${getExtension(index)}"
+    fun getFileName(index: Int): String = "media_$index.${getExtension(index)}"
 
     fun getBytesOf(index: Int): ByteArray =
         getBytesOf(getFileName(index))
@@ -156,34 +160,34 @@ object KimTestData {
         Resource("$RESOURCE_PATH/full/$fileName").readBytes()
 
     fun getHeaderBytesOf(index: Int): ByteArray =
-        Resource("$RESOURCE_PATH/headers/photo_${index}_header.${getExtension(index)}").readBytes()
+        Resource("$RESOURCE_PATH/headers/media_${index}_header.${getExtension(index)}").readBytes()
 
     fun getModifiedBytesOf(index: Int): ByteArray =
-        Resource("$RESOURCE_PATH/modified/photo_${index}_modified.${getExtension(index)}").readBytes()
+        Resource("$RESOURCE_PATH/modified/media_${index}_modified.${getExtension(index)}").readBytes()
 
     fun getExifThumbnailBytesOf(index: Int): ByteArray =
-        Resource("$RESOURCE_PATH/exifthumbs/photo_${index}_exifthumb.jpg").readBytes()
+        Resource("$RESOURCE_PATH/exifthumbs/media_${index}_exifthumb.jpg").readBytes()
 
     fun getPreviewBytesOf(index: Int): ByteArray =
-        Resource("$RESOURCE_PATH/previews/photo_${index}_preview.jpg").readBytes()
+        Resource("$RESOURCE_PATH/previews/media_${index}_preview.jpg").readBytes()
 
     fun getHeaderExifBytesOf(index: Int): ByteArray =
-        Resource("$RESOURCE_PATH/headers/photo_${index}_header_exif.tif").readBytes()
+        Resource("$RESOURCE_PATH/headers/media_${index}_header_exif.tif").readBytes()
 
     fun getHeaderTextFile(index: Int, identifier: String): String =
-        Resource("$RESOURCE_PATH/headers/photo_${index}_header_$identifier.txt").readBytes().decodeToString()
+        Resource("$RESOURCE_PATH/headers/media_${index}_header_$identifier.txt").readBytes().decodeToString()
 
     fun getToStringText(index: Int): ByteArray =
-        Resource("$RESOURCE_PATH/txt/photo_$index.txt").readBytes()
+        Resource("$RESOURCE_PATH/txt/media_$index.txt").readBytes()
 
     fun getXmp(fileName: String): String =
         Resource("$RESOURCE_PATH/xmp/$fileName").readBytes().decodeToString()
 
     fun getOriginalXmp(index: Int): ByteArray =
-        Resource("$RESOURCE_PATH/xmp/photo_$index.xmp").readBytes()
+        Resource("$RESOURCE_PATH/xmp/media_$index.xmp").readBytes()
 
     fun getFormattedXmp(index: Int): String =
-        Resource("$RESOURCE_PATH/xmp/photo_${index}_formatted.xmp").readBytes().decodeToString()
+        Resource("$RESOURCE_PATH/xmp/media_${index}_formatted.xmp").readBytes().decodeToString()
 
     fun getMetadataCsvString(): String =
         Resource("$RESOURCE_PATH/metadata.csv").readBytes().decodeToString()

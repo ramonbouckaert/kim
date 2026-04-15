@@ -19,8 +19,8 @@ import de.stefan_oltmann.kim.Kim.underUnitTesting
 import de.stefan_oltmann.kim.common.GpsUtil
 import de.stefan_oltmann.kim.model.GpsCoordinates
 import de.stefan_oltmann.kim.model.LocationShown
-import de.stefan_oltmann.kim.model.PhotoMetadata
-import de.stefan_oltmann.kim.model.PhotoRating
+import de.stefan_oltmann.kim.model.MetadataSummary
+import de.stefan_oltmann.kim.model.ExifRating
 import de.stefan_oltmann.kim.model.TiffOrientation
 import de.stefan_oltmann.xmp.XMPException
 import de.stefan_oltmann.xmp.XMPMetaFactory
@@ -43,7 +43,7 @@ public object XmpReader {
     @Suppress("LoopWithTooManyJumpStatements")
     @Throws(XMPException::class)
     @JvmStatic
-    public fun readMetadata(xmp: String): PhotoMetadata {
+    public fun readMetadata(xmp: String): MetadataSummary {
 
         val xmpMeta = XMPMetaFactory.parseFromString(xmp)
 
@@ -98,10 +98,10 @@ public object XmpReader {
         }
 
         /*
-         * Compile into PhotoMetadata object
+         * Compile into MetadataSummary object
          */
 
-        return PhotoMetadata(
+        return MetadataSummary(
             orientation = TiffOrientation.of(xmpMeta.getOrientation()),
             takenDate = takenDate,
             gpsCoordinates = gpsCoordinates,
@@ -109,7 +109,7 @@ public object XmpReader {
             title = xmpMeta.getTitle(),
             description = xmpMeta.getDescription(),
             flagged = xmpMeta.isFlagged(),
-            rating = xmpMeta.getRating()?.let { PhotoRating.of(it) },
+            rating = xmpMeta.getRating()?.let { ExifRating.of(it) },
             keywords = xmpMeta.getKeywords().ifEmpty {
                 xmpMeta.getAcdSeeKeywords()
             },

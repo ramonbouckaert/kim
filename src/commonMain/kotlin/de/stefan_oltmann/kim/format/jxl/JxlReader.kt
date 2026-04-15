@@ -15,21 +15,21 @@
  */
 package de.stefan_oltmann.kim.format.jxl
 
-import de.stefan_oltmann.kim.format.ImageMetadata
+import de.stefan_oltmann.kim.format.MediaMetadata
 import de.stefan_oltmann.kim.format.bmff.box.Box
 import de.stefan_oltmann.kim.format.jxl.box.ExifBox
 import de.stefan_oltmann.kim.format.jxl.box.XmlBox
-import de.stefan_oltmann.kim.model.ImageFormat
+import de.stefan_oltmann.kim.model.MediaFormat
 
 internal object JxlReader {
 
-    fun createMetadata(allBoxes: List<Box>): ImageMetadata {
+    fun createMetadata(allBoxes: List<Box>): MediaMetadata {
 
         val exifBox = allBoxes.filterIsInstance<ExifBox>().firstOrNull()
         val xmlBox = allBoxes.filterIsInstance<XmlBox>().firstOrNull()
 
-        return ImageMetadata(
-            imageFormat = ImageFormat.JXL,
+        return MediaMetadata(
+            mediaFormat = MediaFormat.JXL,
             imageSize = null, // TODO https://github.com/Ashampoo/kim/issues/65
             exif = exifBox?.tiffContents,
             exifBytes = exifBox?.exifBytes,

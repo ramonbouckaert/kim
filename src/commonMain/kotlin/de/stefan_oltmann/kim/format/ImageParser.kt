@@ -24,41 +24,41 @@ import de.stefan_oltmann.kim.format.raf.RafImageParser
 import de.stefan_oltmann.kim.format.tiff.TiffImageParser
 import de.stefan_oltmann.kim.format.webp.WebPImageParser
 import de.stefan_oltmann.kim.input.ByteReader
-import de.stefan_oltmann.kim.model.ImageFormat
+import de.stefan_oltmann.kim.model.MediaFormat
 import kotlin.jvm.JvmStatic
 
 public fun interface ImageParser {
 
     @Throws(ImageReadException::class)
-    public fun parseMetadata(byteReader: ByteReader): ImageMetadata
+    public fun parseMetadata(byteReader: ByteReader): MediaMetadata
 
     public companion object {
 
         @JvmStatic
-        public fun forFormat(imageFormat: ImageFormat): ImageParser? =
-            when (imageFormat) {
+        public fun forFormat(mediaFormat: MediaFormat): ImageParser? =
+            when (mediaFormat) {
 
-                ImageFormat.JPEG -> JpegImageParser
+                MediaFormat.JPEG -> JpegImageParser
 
-                ImageFormat.PNG -> PngImageParser
+                MediaFormat.PNG -> PngImageParser
 
-                ImageFormat.WEBP -> WebPImageParser
+                MediaFormat.WEBP -> WebPImageParser
 
-                ImageFormat.TIFF,
-                ImageFormat.CR2,
-                ImageFormat.NEF,
-                ImageFormat.ARW,
-                ImageFormat.RW2,
-                ImageFormat.ORF -> TiffImageParser
+                MediaFormat.TIFF,
+                MediaFormat.CR2,
+                MediaFormat.NEF,
+                MediaFormat.ARW,
+                MediaFormat.RW2,
+                MediaFormat.ORF -> TiffImageParser
 
-                ImageFormat.RAF -> RafImageParser
+                MediaFormat.RAF -> RafImageParser
 
-                ImageFormat.HEIC,
-                ImageFormat.AVIF,
-                ImageFormat.CR3,
-                ImageFormat.JXL -> BaseMediaFileFormatImageParser
+                MediaFormat.HEIC,
+                MediaFormat.AVIF,
+                MediaFormat.CR3,
+                MediaFormat.JXL -> BaseMediaFileFormatImageParser
 
-                ImageFormat.GIF -> GifImageParser
+                MediaFormat.GIF -> GifImageParser
 
                 else -> null
             }

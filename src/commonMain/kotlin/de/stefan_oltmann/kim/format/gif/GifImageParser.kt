@@ -18,7 +18,7 @@ package de.stefan_oltmann.kim.format.gif
 
 import de.stefan_oltmann.kim.common.ImageReadException
 import de.stefan_oltmann.kim.common.tryWithImageReadException
-import de.stefan_oltmann.kim.format.ImageMetadata
+import de.stefan_oltmann.kim.format.MediaMetadata
 import de.stefan_oltmann.kim.format.ImageParser
 import de.stefan_oltmann.kim.format.gif.chunk.GifChunk
 import de.stefan_oltmann.kim.format.gif.chunk.GifChunkApplicationExtension
@@ -33,7 +33,7 @@ import de.stefan_oltmann.kim.input.ByteReader
 import de.stefan_oltmann.kim.input.readByte
 import de.stefan_oltmann.kim.input.readByteAsInt
 import de.stefan_oltmann.kim.input.readBytes
-import de.stefan_oltmann.kim.model.ImageFormat
+import de.stefan_oltmann.kim.model.MediaFormat
 import kotlin.jvm.JvmStatic
 
 public object GifImageParser : ImageParser {
@@ -45,7 +45,7 @@ public object GifImageParser : ImageParser {
     )
 
     @Throws(ImageReadException::class)
-    override fun parseMetadata(byteReader: ByteReader): ImageMetadata =
+    override fun parseMetadata(byteReader: ByteReader): MediaMetadata =
         tryWithImageReadException {
 
             val chunks = readChunks(byteReader, metadataChunkTypes)
@@ -58,7 +58,7 @@ public object GifImageParser : ImageParser {
 
     @Throws(ImageReadException::class)
     @JvmStatic
-    public fun parseMetadataFromChunks(chunks: List<GifChunk>): ImageMetadata = tryWithImageReadException {
+    public fun parseMetadataFromChunks(chunks: List<GifChunk>): MediaMetadata = tryWithImageReadException {
 
         require(chunks.isNotEmpty()) {
             "Given chunk list was empty."
@@ -88,8 +88,8 @@ public object GifImageParser : ImageParser {
         else
             null
 
-        return@tryWithImageReadException ImageMetadata(
-            imageFormat = ImageFormat.GIF,
+        return@tryWithImageReadException MediaMetadata(
+            mediaFormat = MediaFormat.GIF,
             imageSize = imageSize,
             exif = null,
             exifBytes = null, // GIF does not support EXIF data

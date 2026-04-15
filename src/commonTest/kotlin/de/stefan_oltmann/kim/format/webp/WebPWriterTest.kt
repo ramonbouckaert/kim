@@ -162,11 +162,11 @@ class WebPWriterTest {
 
             if (!equals) {
 
-                Path("build/photo_${index}_modified.webp")
+                Path("build/media_${index}_modified.webp")
                     .writeBytes(newBytes)
 
                 /* Also write a string representation to see differences more quickly. */
-                Path("build/photo_${index}_modified.txt")
+                Path("build/media_${index}_modified.txt")
                     .writeBytes(Kim.readMetadata(newBytes).toString().encodeToByteArray())
 
                 fail("Bytes for test image #$index are different.")

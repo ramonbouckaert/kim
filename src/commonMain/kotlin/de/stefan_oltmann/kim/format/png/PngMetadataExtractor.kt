@@ -18,7 +18,7 @@ package de.stefan_oltmann.kim.format.png
 import de.stefan_oltmann.kim.common.ImageReadException
 import de.stefan_oltmann.kim.common.toSingleNumberHexes
 import de.stefan_oltmann.kim.common.tryWithImageReadException
-import de.stefan_oltmann.kim.format.ImageFormatMagicNumbers
+import de.stefan_oltmann.kim.format.MediaFormatMagicNumbers
 import de.stefan_oltmann.kim.format.MetadataExtractor
 import de.stefan_oltmann.kim.input.ByteReader
 
@@ -59,10 +59,10 @@ public object PngMetadataExtractor : MetadataExtractor {
 
         val bytes = mutableListOf<Byte>()
 
-        val magicNumberBytes = byteReader.readBytes(ImageFormatMagicNumbers.png.size).toList()
+        val magicNumberBytes = byteReader.readBytes(MediaFormatMagicNumbers.png.size).toList()
 
         /* Ensure it's actually a PNG. */
-        require(magicNumberBytes == ImageFormatMagicNumbers.png) {
+        require(magicNumberBytes == MediaFormatMagicNumbers.png) {
             "PNG magic number mismatch: ${magicNumberBytes.toSingleNumberHexes()}"
         }
 
@@ -132,10 +132,10 @@ public object PngMetadataExtractor : MetadataExtractor {
 
         val bytes = mutableListOf<Byte>()
 
-        val magicNumberBytes = reader.readBytes(ImageFormatMagicNumbers.png.size).toList()
+        val magicNumberBytes = reader.readBytes(MediaFormatMagicNumbers.png.size).toList()
 
         /* Ensure it's actually a PNG. */
-        require(magicNumberBytes == ImageFormatMagicNumbers.png) {
+        require(magicNumberBytes == MediaFormatMagicNumbers.png) {
             "PNG magic number mismatch: ${magicNumberBytes.toSingleNumberHexes()}"
         }
 

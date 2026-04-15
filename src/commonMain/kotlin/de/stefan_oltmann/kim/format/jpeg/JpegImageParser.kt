@@ -21,8 +21,8 @@ import de.stefan_oltmann.kim.common.getRemainingBytes
 import de.stefan_oltmann.kim.common.startsWith
 import de.stefan_oltmann.kim.common.toSingleNumberHexes
 import de.stefan_oltmann.kim.common.tryWithImageReadException
-import de.stefan_oltmann.kim.format.ImageFormatMagicNumbers
-import de.stefan_oltmann.kim.format.ImageMetadata
+import de.stefan_oltmann.kim.format.MediaFormatMagicNumbers
+import de.stefan_oltmann.kim.format.MediaMetadata
 import de.stefan_oltmann.kim.format.ImageParser
 import de.stefan_oltmann.kim.format.jpeg.iptc.IptcMetadata
 import de.stefan_oltmann.kim.format.jpeg.segment.App13Segment
@@ -39,17 +39,17 @@ import de.stefan_oltmann.kim.input.ByteArrayByteReader
 import de.stefan_oltmann.kim.input.ByteReader
 import de.stefan_oltmann.kim.input.read2BytesAsInt
 import de.stefan_oltmann.kim.input.skipBytes
-import de.stefan_oltmann.kim.model.ImageFormat
+import de.stefan_oltmann.kim.model.MediaFormat
 import de.stefan_oltmann.kim.model.ImageSize
 
 public object JpegImageParser : ImageParser {
 
     public fun getImageSize(byteReader: ByteReader): ImageSize? {
 
-        val magicNumberBytes = byteReader.readBytes(ImageFormatMagicNumbers.jpeg.size).toList()
+        val magicNumberBytes = byteReader.readBytes(MediaFormatMagicNumbers.jpeg.size).toList()
 
         /* Ensure it's actually a JPEG. */
-        require(magicNumberBytes == ImageFormatMagicNumbers.jpeg) {
+        require(magicNumberBytes == MediaFormatMagicNumbers.jpeg) {
             "JPEG magic number mismatch: ${magicNumberBytes.toSingleNumberHexes()}"
         }
 
@@ -132,7 +132,7 @@ public object JpegImageParser : ImageParser {
     }
 
     @Throws(ImageReadException::class)
-    override fun parseMetadata(byteReader: ByteReader): ImageMetadata =
+    override fun parseMetadata(byteReader: ByteReader): MediaMetadata =
         tryWithImageReadException {
 
             val segments = readSegments(
@@ -151,8 +151,8 @@ public object JpegImageParser : ImageParser {
 
             val xmp = getXmpXml(segments)
 
-            return@tryWithImageReadException ImageMetadata(
-                imageFormat = ImageFormat.JPEG,
+            return@tryWithImageReadException MediaMetadata(
+                mediaFormat = MediaFormat.JPEG,
                 imageSize = imageSize,
                 exif = exif,
                 exifBytes = exifBytes,

@@ -53,7 +53,7 @@ internal fun ByteArray.indexOfNullTerminator(): Int =
     indexOfNullTerminator(0)
 
 /**
- * NUL is often used in image formats to terminate a string.
+ * NUL is often used in media formats to terminate a string.
  */
 internal fun ByteArray.indexOfNullTerminator(start: Int): Int {
 

@@ -34,9 +34,9 @@ This product includes images from Unsplash provided under
 the Unsplash license (https://unsplash.com/license).
 These files are used as test data.
 
-The sample images photo_62.nef, photo_63.arw, photo_64.rw2,
-photo_56.orf, photo_72.hif and photo_83.cr3 are taken from 
+The sample images media_62.nef, media_63.arw, media_64.rw2,
+media_56.orf, media_72.hif and media_83.cr3 are taken from 
 https://github.com/drewnoakes/metadata-extractor-images
 under the note "You are free to use these media files however you wish".
 
-The sample image photo_77.heic was contributed by Miroslav Sobotka.
+The sample image media_77.heic was contributed by Miroslav Sobotka.

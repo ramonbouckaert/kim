@@ -1,2 +1,0 @@
-File format : JPEG
-Resolution  : 260 x 773

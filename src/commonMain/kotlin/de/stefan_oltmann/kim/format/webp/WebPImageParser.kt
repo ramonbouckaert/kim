@@ -17,7 +17,7 @@ package de.stefan_oltmann.kim.format.webp
 
 import de.stefan_oltmann.kim.common.ImageReadException
 import de.stefan_oltmann.kim.common.tryWithImageReadException
-import de.stefan_oltmann.kim.format.ImageMetadata
+import de.stefan_oltmann.kim.format.MediaMetadata
 import de.stefan_oltmann.kim.format.ImageParser
 import de.stefan_oltmann.kim.format.webp.WebPConstants.CHUNK_SIZE_LENGTH
 import de.stefan_oltmann.kim.format.webp.WebPConstants.RIFF_SIGNATURE
@@ -36,7 +36,7 @@ import de.stefan_oltmann.kim.input.read4BytesAsInt
 import de.stefan_oltmann.kim.input.readAndVerifyBytes
 import de.stefan_oltmann.kim.input.readBytes
 import de.stefan_oltmann.kim.input.skipBytes
-import de.stefan_oltmann.kim.model.ImageFormat
+import de.stefan_oltmann.kim.model.MediaFormat
 import kotlin.jvm.JvmStatic
 
 public object WebPImageParser : ImageParser {
@@ -44,7 +44,7 @@ public object WebPImageParser : ImageParser {
     /*
      * https://developers.google.com/speed/webp/docs/riff_container
      */
-    override fun parseMetadata(byteReader: ByteReader): ImageMetadata =
+    override fun parseMetadata(byteReader: ByteReader): MediaMetadata =
         tryWithImageReadException {
 
             val chunks = readChunks(
@@ -60,7 +60,7 @@ public object WebPImageParser : ImageParser {
 
     @Throws(ImageReadException::class)
     @JvmStatic
-    public fun parseMetadataFromChunks(chunks: List<WebPChunk>): ImageMetadata =
+    public fun parseMetadataFromChunks(chunks: List<WebPChunk>): MediaMetadata =
         tryWithImageReadException {
 
             val imageSizeAwareChunk = chunks.filterIsInstance<ImageSizeAware>().firstOrNull()
@@ -75,8 +75,8 @@ public object WebPImageParser : ImageParser {
             val exifChunk = chunks.filterIsInstance<WebPChunkExif>().firstOrNull()
             val xmpChunk = chunks.filterIsInstance<WebPChunkXmp>().firstOrNull()
 
-            return@tryWithImageReadException ImageMetadata(
-                imageFormat = ImageFormat.WEBP,
+            return@tryWithImageReadException MediaMetadata(
+                mediaFormat = MediaFormat.WEBP,
                 imageSize = imageSize,
                 exif = exifChunk?.tiffContents,
                 exifBytes = exifChunk?.bytes,

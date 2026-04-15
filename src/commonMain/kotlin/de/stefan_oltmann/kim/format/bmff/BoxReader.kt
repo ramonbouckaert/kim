@@ -1,4 +1,5 @@
 /*
+ * Copyright 2026 Stefan Oltmann
  * Copyright 2025 Ashampoo GmbH & Co. KG
  * Copyright 2002-2023 Drew Noakes and contributors
  *
@@ -29,6 +30,7 @@ import de.stefan_oltmann.kim.format.bmff.box.MetaBox
 import de.stefan_oltmann.kim.format.bmff.box.MovieBox
 import de.stefan_oltmann.kim.format.bmff.box.PrimaryItemBox
 import de.stefan_oltmann.kim.format.bmff.box.TrackBox
+import de.stefan_oltmann.kim.format.bmff.box.UserDataBox
 import de.stefan_oltmann.kim.format.bmff.box.UuidBox
 import de.stefan_oltmann.kim.format.jxl.box.CompressedBox
 import de.stefan_oltmann.kim.format.jxl.box.ExifBox
@@ -139,6 +141,7 @@ public object BoxReader {
                 BoxType.TRAK -> TrackBox(globalOffset, size, largeSize, bytes)
                 BoxType.MDIA -> MediaBox(globalOffset, size, largeSize, bytes)
                 BoxType.UUID -> UuidBox(globalOffset, size, largeSize, bytes)
+                BoxType.UDTA -> UserDataBox(globalOffset, size, largeSize, bytes)
                 /* JXL boxes */
                 BoxType.EXIF -> ExifBox(globalOffset, size, largeSize, bytes)
                 BoxType.XML -> XmlBox(globalOffset, size, largeSize, bytes)

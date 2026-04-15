@@ -19,7 +19,7 @@ import de.stefan_oltmann.kim.Kim
 import de.stefan_oltmann.kim.common.writeBytes
 import de.stefan_oltmann.kim.model.GpsCoordinates
 import de.stefan_oltmann.kim.model.MetadataUpdate
-import de.stefan_oltmann.kim.model.PhotoRating
+import de.stefan_oltmann.kim.model.ExifRating
 import de.stefan_oltmann.kim.model.TiffOrientation
 import de.stefan_oltmann.kim.testdata.KimTestData
 import de.stefan_oltmann.xmp.XMPMetaFactory
@@ -39,7 +39,7 @@ class XmpWriterTest {
         MetadataUpdate.Orientation(TiffOrientation.ROTATE_RIGHT),
         MetadataUpdate.TakenDate(1_690_889_862_000L), // 01.08.2023 13:37:42
         MetadataUpdate.GpsCoordinates(GpsCoordinates(53.219391, 8.239661)),
-        MetadataUpdate.Rating(PhotoRating.THREE_STARS),
+        MetadataUpdate.Rating(ExifRating.THREE_STARS),
         MetadataUpdate.Keywords(setOf("fox", "fuchs", "<swiper>")),
         // MetadataUpdate.Faces(mapOf("John" to RegionArea(0.2, 0.3, 0.4, 0.5))),
         MetadataUpdate.Persons(setOf("John"))

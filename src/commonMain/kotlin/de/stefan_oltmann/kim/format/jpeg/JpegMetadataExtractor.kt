@@ -20,7 +20,7 @@ import de.stefan_oltmann.kim.common.ImageReadException
 import de.stefan_oltmann.kim.common.toSingleNumberHexes
 import de.stefan_oltmann.kim.common.toUInt16
 import de.stefan_oltmann.kim.common.tryWithImageReadException
-import de.stefan_oltmann.kim.format.ImageFormatMagicNumbers
+import de.stefan_oltmann.kim.format.MediaFormatMagicNumbers
 import de.stefan_oltmann.kim.format.MetadataExtractor
 import de.stefan_oltmann.kim.input.ByteReader
 
@@ -40,10 +40,10 @@ public object JpegMetadataExtractor : MetadataExtractor {
 
         val bytes = mutableListOf<Byte>()
 
-        val magicNumberBytes = byteReader.readBytes(ImageFormatMagicNumbers.jpeg.size).toList()
+        val magicNumberBytes = byteReader.readBytes(MediaFormatMagicNumbers.jpeg.size).toList()
 
         /* Ensure it's actually a JPEG. */
-        require(magicNumberBytes == ImageFormatMagicNumbers.jpeg) {
+        require(magicNumberBytes == MediaFormatMagicNumbers.jpeg) {
             "JPEG magic number mismatch: ${magicNumberBytes.toSingleNumberHexes()}"
         }
 

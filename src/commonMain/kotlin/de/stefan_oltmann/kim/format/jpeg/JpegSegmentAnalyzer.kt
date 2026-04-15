@@ -18,7 +18,7 @@ package de.stefan_oltmann.kim.format.jpeg
 import de.stefan_oltmann.kim.common.ImageReadException
 import de.stefan_oltmann.kim.common.toUInt16
 import de.stefan_oltmann.kim.common.tryWithImageReadException
-import de.stefan_oltmann.kim.format.ImageFormatMagicNumbers
+import de.stefan_oltmann.kim.format.MediaFormatMagicNumbers
 import de.stefan_oltmann.kim.format.jpeg.JpegConstants.EOI_MARKER
 import de.stefan_oltmann.kim.format.jpeg.JpegConstants.JPEG_BYTE_ORDER
 import de.stefan_oltmann.kim.format.jpeg.JpegConstants.SOI_MARKER
@@ -59,7 +59,7 @@ public object JpegSegmentAnalyzer {
             )
         )
 
-        var positionCounter: Int = ImageFormatMagicNumbers.jpeg.size
+        var positionCounter: Int = MediaFormatMagicNumbers.jpeg.size
 
         @Suppress("LoopWithTooManyJumpStatements")
         do {

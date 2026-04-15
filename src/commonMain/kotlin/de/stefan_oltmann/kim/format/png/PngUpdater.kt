@@ -18,7 +18,7 @@ package de.stefan_oltmann.kim.format.png
 import de.stefan_oltmann.kim.common.ImageWriteException
 import de.stefan_oltmann.kim.common.startsWith
 import de.stefan_oltmann.kim.common.tryWithImageWriteException
-import de.stefan_oltmann.kim.format.ImageFormatMagicNumbers
+import de.stefan_oltmann.kim.format.MediaFormatMagicNumbers
 import de.stefan_oltmann.kim.format.MetadataUpdater
 import de.stefan_oltmann.kim.format.tiff.write.TiffOutputSet
 import de.stefan_oltmann.kim.format.tiff.write.TiffWriterBase
@@ -99,7 +99,7 @@ internal object PngUpdater : MetadataUpdater {
         thumbnailBytes: ByteArray
     ): ByteArray = tryWithImageWriteException {
 
-        if (!bytes.startsWith(ImageFormatMagicNumbers.png))
+        if (!bytes.startsWith(MediaFormatMagicNumbers.png))
             throw ImageWriteException("Provided input bytes are not PNG!")
 
         val byteReader = ByteArrayByteReader(bytes)

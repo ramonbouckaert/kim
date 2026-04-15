@@ -19,7 +19,7 @@ package de.stefan_oltmann.kim.format.png
 import de.stefan_oltmann.kim.common.ImageReadException
 import de.stefan_oltmann.kim.common.convertHexStringToByteArray
 import de.stefan_oltmann.kim.common.tryWithImageReadException
-import de.stefan_oltmann.kim.format.ImageMetadata
+import de.stefan_oltmann.kim.format.MediaMetadata
 import de.stefan_oltmann.kim.format.ImageParser
 import de.stefan_oltmann.kim.format.jpeg.JpegConstants
 import de.stefan_oltmann.kim.format.jpeg.iptc.IptcMetadata
@@ -39,7 +39,7 @@ import de.stefan_oltmann.kim.input.read4BytesAsInt
 import de.stefan_oltmann.kim.input.readAndVerifyBytes
 import de.stefan_oltmann.kim.input.readBytes
 import de.stefan_oltmann.kim.input.skipBytes
-import de.stefan_oltmann.kim.model.ImageFormat
+import de.stefan_oltmann.kim.model.MediaFormat
 import kotlin.jvm.JvmStatic
 
 public object PngImageParser : ImageParser {
@@ -56,7 +56,7 @@ public object PngImageParser : ImageParser {
     )
 
     @Throws(ImageReadException::class)
-    override fun parseMetadata(byteReader: ByteReader): ImageMetadata =
+    override fun parseMetadata(byteReader: ByteReader): MediaMetadata =
         tryWithImageReadException {
 
             val chunks = readChunks(byteReader, metadataChunkTypes)
@@ -69,7 +69,7 @@ public object PngImageParser : ImageParser {
 
     @Throws(ImageReadException::class)
     @JvmStatic
-    public fun parseMetadataFromChunks(chunks: List<PngChunk>): ImageMetadata =
+    public fun parseMetadataFromChunks(chunks: List<PngChunk>): MediaMetadata =
         tryWithImageReadException {
 
             require(chunks.isNotEmpty()) {
@@ -99,8 +99,8 @@ public object PngImageParser : ImageParser {
 
             val xmp = getXmpXml(chunks)
 
-            return@tryWithImageReadException ImageMetadata(
-                imageFormat = ImageFormat.PNG,
+            return@tryWithImageReadException MediaMetadata(
+                mediaFormat = MediaFormat.PNG,
                 imageSize = imageSize,
                 exif = exifPair?.second,
                 exifBytes = exifPair?.first,

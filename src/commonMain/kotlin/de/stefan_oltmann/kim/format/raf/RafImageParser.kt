@@ -18,15 +18,15 @@ package de.stefan_oltmann.kim.format.raf
 import de.stefan_oltmann.kim.common.ByteOrder
 import de.stefan_oltmann.kim.common.ImageReadException
 import de.stefan_oltmann.kim.common.tryWithImageReadException
-import de.stefan_oltmann.kim.format.ImageFormatMagicNumbers
-import de.stefan_oltmann.kim.format.ImageMetadata
+import de.stefan_oltmann.kim.format.MediaFormatMagicNumbers
+import de.stefan_oltmann.kim.format.MediaMetadata
 import de.stefan_oltmann.kim.format.ImageParser
 import de.stefan_oltmann.kim.format.jpeg.JpegImageParser
 import de.stefan_oltmann.kim.input.ByteReader
 import de.stefan_oltmann.kim.input.read4BytesAsInt
 import de.stefan_oltmann.kim.input.readAndVerifyBytes
 import de.stefan_oltmann.kim.input.skipBytes
-import de.stefan_oltmann.kim.model.ImageFormat
+import de.stefan_oltmann.kim.model.MediaFormat
 
 public object RafImageParser : ImageParser {
 
@@ -36,12 +36,12 @@ public object RafImageParser : ImageParser {
      */
     @Throws(ImageReadException::class)
     @Suppress("ComplexCondition", "LoopWithTooManyJumpStatements")
-    override fun parseMetadata(byteReader: ByteReader): ImageMetadata =
+    override fun parseMetadata(byteReader: ByteReader): MediaMetadata =
         tryWithImageReadException {
 
             byteReader.readAndVerifyBytes(
                 "RAF magic number",
-                ImageFormatMagicNumbers.raf.toByteArray()
+                MediaFormatMagicNumbers.raf.toByteArray()
             )
 
             byteReader.skipBytes("86 header bytes", RafMetadataExtractor.REMAINING_HEADER_BYTE_COUNT)
@@ -50,12 +50,12 @@ public object RafImageParser : ImageParser {
 
             @Suppress("MagicNumber")
             val remainingBytesToOffset = offset -
-                (RafMetadataExtractor.REMAINING_HEADER_BYTE_COUNT + ImageFormatMagicNumbers.raf.size + 4)
+                (RafMetadataExtractor.REMAINING_HEADER_BYTE_COUNT + MediaFormatMagicNumbers.raf.size + 4)
 
             byteReader.skipBytes("Skip JPEG offset", remainingBytesToOffset)
 
             return@tryWithImageReadException JpegImageParser
                 .parseMetadata(byteReader)
-                .copy(imageFormat = ImageFormat.RAF)
+                .withMediaFormat(mediaFormat = MediaFormat.RAF)
         }
 }

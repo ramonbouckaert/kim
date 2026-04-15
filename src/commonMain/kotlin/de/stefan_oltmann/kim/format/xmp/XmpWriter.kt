@@ -18,7 +18,7 @@ package de.stefan_oltmann.kim.format.xmp
 import de.stefan_oltmann.kim.Kim.underUnitTesting
 import de.stefan_oltmann.kim.common.GpsUtil
 import de.stefan_oltmann.kim.model.MetadataUpdate
-import de.stefan_oltmann.kim.model.PhotoRating
+import de.stefan_oltmann.kim.model.ExifRating
 import de.stefan_oltmann.xmp.XMPException
 import de.stefan_oltmann.xmp.XMPLocation
 import de.stefan_oltmann.xmp.XMPMeta
@@ -148,19 +148,19 @@ public object XmpWriter {
                  * In the case of flagging/picking a photo a rejected
                  * rating will be reset to UNRATED for logical consistency.
                  */
-                if (update.flagged && getRating() == PhotoRating.REJECTED.value)
-                    setRating(PhotoRating.UNRATED.value)
+                if (update.flagged && getRating() == ExifRating.REJECTED.value)
+                    setRating(ExifRating.UNRATED.value)
             }
 
             is MetadataUpdate.Rating -> {
 
-                setRating(update.photoRating.value)
+                setRating(update.exifRating.value)
 
                 /*
                  * In the case of rejecting a photo a flag/pick marker
                  * will be removed for logical consistency.
                  */
-                if (update.photoRating == PhotoRating.REJECTED && isFlagged())
+                if (update.exifRating == ExifRating.REJECTED && isFlagged())
                     setFlagged(false)
             }
 

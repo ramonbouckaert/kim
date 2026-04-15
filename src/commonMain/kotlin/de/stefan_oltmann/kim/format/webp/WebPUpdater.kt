@@ -18,7 +18,7 @@ package de.stefan_oltmann.kim.format.webp
 import de.stefan_oltmann.kim.common.ImageWriteException
 import de.stefan_oltmann.kim.common.startsWithNullable
 import de.stefan_oltmann.kim.common.tryWithImageWriteException
-import de.stefan_oltmann.kim.format.ImageFormatMagicNumbers
+import de.stefan_oltmann.kim.format.MediaFormatMagicNumbers
 import de.stefan_oltmann.kim.format.MetadataUpdater
 import de.stefan_oltmann.kim.format.tiff.write.TiffOutputSet
 import de.stefan_oltmann.kim.format.tiff.write.TiffWriterBase
@@ -93,7 +93,7 @@ internal object WebPUpdater : MetadataUpdater {
         thumbnailBytes: ByteArray
     ): ByteArray = tryWithImageWriteException {
 
-        if (!bytes.startsWithNullable(ImageFormatMagicNumbers.webP))
+        if (!bytes.startsWithNullable(MediaFormatMagicNumbers.webP))
             throw ImageWriteException("Provided input bytes are not WebP!")
 
         val byteReader = ByteArrayByteReader(bytes)

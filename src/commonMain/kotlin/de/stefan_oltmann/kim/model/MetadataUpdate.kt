@@ -92,7 +92,7 @@ public sealed interface MetadataUpdate {
      * will be removed for logical consistency.
      */
     public data class Rating(
-        val photoRating: PhotoRating
+        val exifRating: ExifRating
     ) : MetadataUpdate
 
     /**

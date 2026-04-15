@@ -32,7 +32,7 @@ class ExifThumbnailExtractionTest {
     @Test
     fun testExtractJpegThumbnail() {
 
-        for (index in KimTestData.photoIdsWithExifThumbnail) {
+        for (index in KimTestData.mediaIdsWithExifThumbnail) {
 
             /* Thumbnail directory IFD1 is corrupt. */
             if (index == 21)
@@ -48,7 +48,7 @@ class ExifThumbnailExtractionTest {
 
             val actualThumbnailBytes = metadata?.getExifThumbnailBytes()
 
-            assertNotNull(actualThumbnailBytes, "Photo $index has no thumbnail bytes.")
+            assertNotNull(actualThumbnailBytes, "Media $index has no thumbnail bytes.")
 
             val expectedThumbnailBytes = KimTestData.getExifThumbnailBytesOf(index)
 
@@ -56,10 +56,10 @@ class ExifThumbnailExtractionTest {
 
             if (!equals) {
 
-                Path("build/photo_${index}_exifthumb.jpg")
+                Path("build/media_${index}_exifthumb.jpg")
                     .writeBytes(actualThumbnailBytes)
 
-                fail("Photo $index has not the expected bytes!")
+                fail("Media $index has not the expected bytes!")
             }
         }
     }

@@ -15,7 +15,7 @@
  */
 package de.stefan_oltmann.kim
 
-import de.stefan_oltmann.kim.common.convertToPhotoMetadata
+import de.stefan_oltmann.kim.common.convertToSummary
 import de.stefan_oltmann.kim.common.readFileAsByteArray
 import platform.posix.perror
 
@@ -56,7 +56,7 @@ public fun main(args: Array<String>) {
 
     println("--- Ashampoo Photo Organizer Metadata ---")
 
-    val photoMetadata = metadata.convertToPhotoMetadata()
+    val summary = metadata.convertToSummary()
 
-    println(photoMetadata)
+    println(summary)
 }

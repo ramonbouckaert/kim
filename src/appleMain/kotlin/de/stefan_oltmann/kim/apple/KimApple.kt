@@ -18,7 +18,7 @@ package de.stefan_oltmann.kim.apple
 import de.stefan_oltmann.kim.Kim
 import de.stefan_oltmann.kim.common.ImageReadException
 import de.stefan_oltmann.kim.common.readFileAsByteArray
-import de.stefan_oltmann.kim.format.ImageMetadata
+import de.stefan_oltmann.kim.format.MediaMetadata
 import de.stefan_oltmann.kim.input.ByteArrayByteReader
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.addressOf
@@ -32,11 +32,11 @@ import platform.posix.memcpy
 public object KimApple {
 
     @Throws(ImageReadException::class)
-    public fun readMetadata(data: NSData): ImageMetadata? =
+    public fun readMetadata(data: NSData): MediaMetadata? =
         Kim.readMetadata(ByteArrayByteReader(convertDataToByteArray(data)))
 
     @Throws(ImageReadException::class)
-    public fun readMetadata(path: String): ImageMetadata? {
+    public fun readMetadata(path: String): MediaMetadata? {
 
         val fileBytes = readFileAsByteArray(path) ?: return null
 
@@ -45,11 +45,11 @@ public object KimApple {
 }
 
 @Throws(ImageReadException::class)
-public fun Kim.readMetadata(data: NSData): ImageMetadata? =
+public fun Kim.readMetadata(data: NSData): MediaMetadata? =
     KimApple.readMetadata(data)
 
 @Throws(ImageReadException::class)
-public fun Kim.readMetadata(path: String): ImageMetadata? =
+public fun Kim.readMetadata(path: String): MediaMetadata? =
     KimApple.readMetadata(path)
 
 @OptIn(ExperimentalForeignApi::class)

@@ -18,7 +18,7 @@ package de.stefan_oltmann.kim.format.jxl
 import de.stefan_oltmann.kim.common.ImageWriteException
 import de.stefan_oltmann.kim.common.startsWith
 import de.stefan_oltmann.kim.common.tryWithImageWriteException
-import de.stefan_oltmann.kim.format.ImageFormatMagicNumbers
+import de.stefan_oltmann.kim.format.MediaFormatMagicNumbers
 import de.stefan_oltmann.kim.format.MetadataUpdater
 import de.stefan_oltmann.kim.format.bmff.BoxReader
 import de.stefan_oltmann.kim.format.tiff.write.TiffOutputSet
@@ -97,7 +97,7 @@ internal object JxlUpdater : MetadataUpdater {
         thumbnailBytes: ByteArray
     ): ByteArray = tryWithImageWriteException {
 
-        if (!bytes.startsWith(ImageFormatMagicNumbers.jxl))
+        if (!bytes.startsWith(MediaFormatMagicNumbers.jxl))
             throw ImageWriteException("Provided input bytes are not JXL!")
 
         val byteReader = ByteArrayByteReader(bytes)

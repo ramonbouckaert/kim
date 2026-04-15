@@ -1,4 +1,5 @@
 /*
+ * Copyright 2026 Stefan Oltmann
  * Copyright 2025 Ashampoo GmbH & Co. KG
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -109,6 +110,21 @@ public data class BoxType(
         public val MDIA: BoxType = of("mdia".encodeToByteArray())
 
         /**
+         * ISOBMFF Track Header Box
+         */
+        public val TKHD: BoxType = of("tkhd".encodeToByteArray())
+
+        /**
+         * ISOBMFF Media Header Box
+         */
+        public val MDHD: BoxType = of("mdhd".encodeToByteArray())
+
+        /**
+         * ISOBMFF User Data Box
+         */
+        public val UDTA: BoxType = of("udta".encodeToByteArray())
+
+        /**
          * ISOBMFF Media Information Container, used by CR3
          */
         public val MINF: BoxType = of("minf".encodeToByteArray())
@@ -177,6 +193,26 @@ public data class BoxType(
          * CR3 specific: Thumbnail JPG bytes
          */
         public val THMB: BoxType = of("THMB".encodeToByteArray())
+
+        /**
+         * Apple information box (format) - byte 0xa9 followed by "fmt"
+         */
+        public val FMT: BoxType = of(byteArrayOf(0xA9.toByte(), 'f'.code.toByte(), 'm'.code.toByte(), 't'.code.toByte()))
+
+        /**
+         * Apple information box (information) - byte 0xa9 followed by "inf"
+         */
+        public val AINF: BoxType = of(byteArrayOf(0xA9.toByte(), 'i'.code.toByte(), 'n'.code.toByte(), 'f'.code.toByte()))
+
+        /**
+         * FujiFilm Movie Stream Name
+         */
+        public val FFMV: BoxType = of("FFMV".encodeToByteArray())
+
+        /**
+         * FujiFilm Metadata
+         */
+        public val MVTG: BoxType = of("MVTG".encodeToByteArray())
 
         @Suppress("MagicNumber")
         public fun of(typeBytes: ByteArray): BoxType {

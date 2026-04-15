@@ -18,8 +18,8 @@ package de.stefan_oltmann.kim.format.bmff
 import de.stefan_oltmann.kim.common.ImageReadException
 import de.stefan_oltmann.kim.common.MetadataOffset
 import de.stefan_oltmann.kim.common.MetadataType
-import de.stefan_oltmann.kim.format.ImageMetadata
 import de.stefan_oltmann.kim.format.ImageParser
+import de.stefan_oltmann.kim.format.MediaMetadata
 import de.stefan_oltmann.kim.format.bmff.BMFFConstants.BMFF_BYTE_ORDER
 import de.stefan_oltmann.kim.format.bmff.BMFFConstants.TIFF_HEADER_OFFSET_BYTE_COUNT
 import de.stefan_oltmann.kim.format.bmff.box.FileTypeBox
@@ -44,7 +44,7 @@ import de.stefan_oltmann.kim.input.skipBytes
  */
 public object BaseMediaFileFormatImageParser : ImageParser {
 
-    override fun parseMetadata(byteReader: ByteReader): ImageMetadata {
+    override fun parseMetadata(byteReader: ByteReader): MediaMetadata {
 
         val copyByteReader = CopyByteReader(byteReader)
 
@@ -85,14 +85,7 @@ public object BaseMediaFileFormatImageParser : ImageParser {
 
         /* Return empty object if no metadata is found. */
         if (metadataOffsets.isEmpty())
-            return ImageMetadata(
-                imageFormat = null,
-                imageSize = null,
-                exif = null,
-                exifBytes = null,
-                iptc = null,
-                xmp = null
-            )
+            return MediaMetadata.createEmpty(mediaFormat = null)
 
         val minOffset = metadataOffsets.first().offset
 
@@ -163,8 +156,8 @@ public object BaseMediaFileFormatImageParser : ImageParser {
             }
         }
 
-        return ImageMetadata(
-            imageFormat = null, // could be any ISO BMFF
+        return MediaMetadata(
+            mediaFormat = null, // could be any ISO BMFF
             imageSize = null, // not covered by ISO BMFF
             exif = exif,
             exifBytes = exifBytes,

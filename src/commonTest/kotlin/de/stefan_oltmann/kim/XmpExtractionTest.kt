@@ -34,7 +34,11 @@ class XmpExtractionTest {
         KimTestData.ORF_TEST_IMAGE_INDEX,
         KimTestData.HEIC_TEST_IMAGE_FROM_SAMSUNG_INDEX,
         KimTestData.GEOTIFF_PIXEL_SCALING_INDEX,
-        KimTestData.GEOTIFF_AFFINE_TRANSFORM_INDEX
+        KimTestData.GEOTIFF_AFFINE_TRANSFORM_INDEX,
+
+        // TODO Support XMP extraction for these files
+        KimTestData.MP4_TEST_VIDEO_INDEX,
+        KimTestData.MOV_TEST_VIDEO_INDEX
     )
 
     // TODO Support these files as they have XMP
@@ -50,7 +54,7 @@ class XmpExtractionTest {
     fun testExtractXmp() {
 
         @Suppress("LoopWithTooManyJumpStatements")
-        for (index in 1..KimTestData.TEST_PHOTO_COUNT) {
+        for (index in 1..KimTestData.TEST_MEDIA_COUNT) {
 
             /* Skip files without embedded XMP */
             if (indicesWithoutXmp.contains(index) || indicesUnsupported.contains(index))
@@ -70,10 +74,10 @@ class XmpExtractionTest {
 
             if (!equals) {
 
-                Path("build/photo_$index.xmp")
+                Path("build/media_$index.xmp")
                     .writeBytes(actualXmpBytes)
 
-                fail("Photo $index has not the expected bytes!")
+                fail("Media $index has not the expected bytes!")
             }
         }
     }

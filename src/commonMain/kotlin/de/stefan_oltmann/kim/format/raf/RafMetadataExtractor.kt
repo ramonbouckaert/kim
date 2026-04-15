@@ -18,7 +18,7 @@ package de.stefan_oltmann.kim.format.raf
 import de.stefan_oltmann.kim.common.ByteOrder
 import de.stefan_oltmann.kim.common.ImageReadException
 import de.stefan_oltmann.kim.common.tryWithImageReadException
-import de.stefan_oltmann.kim.format.ImageFormatMagicNumbers
+import de.stefan_oltmann.kim.format.MediaFormatMagicNumbers
 import de.stefan_oltmann.kim.format.MetadataExtractor
 import de.stefan_oltmann.kim.format.jpeg.JpegMetadataExtractor
 import de.stefan_oltmann.kim.input.ByteReader
@@ -42,7 +42,7 @@ public object RafMetadataExtractor : MetadataExtractor {
 
         byteReader.readAndVerifyBytes(
             "RAF magic number",
-            ImageFormatMagicNumbers.raf.toByteArray()
+            MediaFormatMagicNumbers.raf.toByteArray()
         )
 
         byteReader.skipBytes("86 header bytes", REMAINING_HEADER_BYTE_COUNT)
@@ -51,7 +51,7 @@ public object RafMetadataExtractor : MetadataExtractor {
 
         @Suppress("MagicNumber")
         val remainingBytesToOffset = offset -
-            (REMAINING_HEADER_BYTE_COUNT + ImageFormatMagicNumbers.raf.size + 4)
+            (REMAINING_HEADER_BYTE_COUNT + MediaFormatMagicNumbers.raf.size + 4)
 
         byteReader.skipBytes("Skip JPEG offset", remainingBytesToOffset)
 

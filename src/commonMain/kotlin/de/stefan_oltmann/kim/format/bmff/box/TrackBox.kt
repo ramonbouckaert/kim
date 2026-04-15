@@ -1,4 +1,5 @@
 /*
+ * Copyright 2026 Stefan Oltmann
  * Copyright 2025 Ashampoo GmbH & Co. KG
  * Copyright 2002-2023 Drew Noakes and contributors
  *
@@ -49,11 +50,17 @@ public class TrackBox(
             offsetShift = offset + 8
         )
 
-        if (boxes.size != 2)
-            throw ImageReadException("Track box should contain two boxes: $boxes")
+        if (boxes.isEmpty())
+            throw ImageReadException("Track box should contain boxes: $boxes")
 
-        trackHeaderBox = boxes[0]
-        mediaBox = boxes[1] as MediaBox
+        val localTrackHeaderBox = boxes.find { it.type == BoxType.TKHD }
+        val localMediaBox = boxes.find { it.type == BoxType.MDIA }
+
+        if (localTrackHeaderBox == null || localMediaBox == null)
+            throw ImageReadException("Track box should contain 'tkhd' and 'mdia' boxes: $boxes")
+
+        trackHeaderBox = localTrackHeaderBox
+        mediaBox = localMediaBox as MediaBox
     }
 
     override fun toString(): String =

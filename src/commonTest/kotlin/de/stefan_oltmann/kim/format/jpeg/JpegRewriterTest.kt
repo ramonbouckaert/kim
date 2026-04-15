@@ -17,7 +17,7 @@ package de.stefan_oltmann.kim.format.jpeg
 
 import de.stefan_oltmann.kim.Kim
 import de.stefan_oltmann.kim.common.writeBytes
-import de.stefan_oltmann.kim.format.ImageMetadata
+import de.stefan_oltmann.kim.format.MediaMetadata
 import de.stefan_oltmann.kim.format.jpeg.iptc.IptcMetadata
 import de.stefan_oltmann.kim.format.jpeg.iptc.IptcRecord
 import de.stefan_oltmann.kim.format.jpeg.iptc.IptcTypes
@@ -166,14 +166,14 @@ class JpegRewriterTest {
 
             if (!equals) {
 
-                Path("build/photo_${index}_modified.jpg")
+                Path("build/media_${index}_modified.jpg")
                     .writeBytes(actualMetadataBytes)
 
                 /* Also write a string representation to see differences more quickly. */
-                Path("build/photo_${index}_modified.txt")
+                Path("build/media_${index}_modified.txt")
                     .writeBytes(Kim.readMetadata(actualMetadataBytes).toString().encodeToByteArray())
 
-                fail("Photo $index has not the expected bytes!")
+                fail("Media $index has not the expected bytes!")
             }
         }
     }
@@ -203,7 +203,7 @@ class JpegRewriterTest {
 
             val bytes = KimTestData.getBytesOf(index)
 
-            val expectedMetadata = Kim.readMetadata(bytes) as ImageMetadata
+            val expectedMetadata = Kim.readMetadata(bytes) as MediaMetadata
 
             val expectedOutputSet = expectedMetadata.exif?.createOutputSet() ?: continue
 

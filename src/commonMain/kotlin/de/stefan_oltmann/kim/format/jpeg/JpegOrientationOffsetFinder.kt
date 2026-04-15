@@ -19,7 +19,7 @@ import de.stefan_oltmann.kim.common.ByteOrder
 import de.stefan_oltmann.kim.common.ImageReadException
 import de.stefan_oltmann.kim.common.toSingleNumberHexes
 import de.stefan_oltmann.kim.common.tryWithImageReadException
-import de.stefan_oltmann.kim.format.ImageFormatMagicNumbers
+import de.stefan_oltmann.kim.format.MediaFormatMagicNumbers
 import de.stefan_oltmann.kim.format.jpeg.JpegConstants.JPEG_BYTE_ORDER
 import de.stefan_oltmann.kim.format.jpeg.JpegMetadataExtractor.MARKER_END_OF_IMAGE
 import de.stefan_oltmann.kim.format.jpeg.JpegMetadataExtractor.SEGMENT_IDENTIFIER
@@ -48,14 +48,14 @@ public object JpegOrientationOffsetFinder {
         byteReader: ByteReader
     ): Long? = tryWithImageReadException {
 
-        val magicNumberBytes = byteReader.readBytes(ImageFormatMagicNumbers.jpeg.size).toList()
+        val magicNumberBytes = byteReader.readBytes(MediaFormatMagicNumbers.jpeg.size).toList()
 
         /* Ensure it's actually a JPEG. */
-        require(magicNumberBytes == ImageFormatMagicNumbers.jpeg) {
+        require(magicNumberBytes == MediaFormatMagicNumbers.jpeg) {
             "JPEG magic number mismatch: ${magicNumberBytes.toSingleNumberHexes()}"
         }
 
-        var positionCounter: Long = ImageFormatMagicNumbers.jpeg.size.toLong()
+        var positionCounter: Long = MediaFormatMagicNumbers.jpeg.size.toLong()
 
         @Suppress("LoopWithTooManyJumpStatements")
         do {

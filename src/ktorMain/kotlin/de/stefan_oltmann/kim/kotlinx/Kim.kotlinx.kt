@@ -18,7 +18,7 @@ package de.stefan_oltmann.kim.kotlinx
 import de.stefan_oltmann.kim.Kim
 import de.stefan_oltmann.kim.common.ImageReadException
 import de.stefan_oltmann.kim.common.tryWithImageReadException
-import de.stefan_oltmann.kim.format.ImageMetadata
+import de.stefan_oltmann.kim.format.MediaMetadata
 import de.stefan_oltmann.kim.input.KotlinIoSourceByteReader
 import kotlinx.io.files.Path
 import kotlin.jvm.JvmStatic
@@ -31,7 +31,7 @@ public object KimKotlinx {
     @JvmStatic
     @OptIn(ExperimentalStdlibApi::class)
     @Throws(ImageReadException::class)
-    public fun readMetadata(path: Path): ImageMetadata? = tryWithImageReadException {
+    public fun readMetadata(path: Path): MediaMetadata? = tryWithImageReadException {
 
         KotlinIoSourceByteReader.read(path) { byteReader ->
             byteReader?.let { Kim.readMetadata(it) }
@@ -41,5 +41,5 @@ public object KimKotlinx {
 
 @OptIn(ExperimentalStdlibApi::class)
 @Throws(ImageReadException::class)
-public fun Kim.readMetadata(path: Path): ImageMetadata? =
+public fun Kim.readMetadata(path: Path): MediaMetadata? =
     KimKotlinx.readMetadata(path)

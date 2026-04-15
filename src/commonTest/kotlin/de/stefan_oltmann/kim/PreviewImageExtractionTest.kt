@@ -65,10 +65,10 @@ class PreviewImageExtractionTest {
 
             if (!equals) {
 
-                Path("build/photo_${index}_preview.jpg")
+                Path("build/media_${index}_preview.jpg")
                     .writeBytes(previewImageBytes)
 
-                fail("Photo $index has not the expected bytes!")
+                fail("Media $index has not the expected bytes!")
             }
         }
     }

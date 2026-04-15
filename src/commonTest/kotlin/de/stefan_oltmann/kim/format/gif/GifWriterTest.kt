@@ -116,11 +116,11 @@ class GifWriterTest {
 
         if (!equals) {
 
-            Path("build/photo_${KimTestData.GIF_TEST_IMAGE_INDEX}_modified.gif")
+            Path("build/media_${KimTestData.GIF_TEST_IMAGE_INDEX}_modified.gif")
                 .writeBytes(newBytes)
 
             /* Also write a string representation to see differences more quickly. */
-            Path("build/photo_${KimTestData.GIF_TEST_IMAGE_INDEX}_modified.txt")
+            Path("build/media_${KimTestData.GIF_TEST_IMAGE_INDEX}_modified.txt")
                 .writeBytes(Kim.readMetadata(newBytes).toString().encodeToByteArray())
 
             fail("Bytes for test image #${KimTestData.GIF_TEST_IMAGE_INDEX} are different.")

@@ -22,7 +22,7 @@ import de.stefan_oltmann.kim.common.ImageReadException
 import de.stefan_oltmann.kim.common.head
 import de.stefan_oltmann.kim.common.startsWith
 import de.stefan_oltmann.kim.common.toInt
-import de.stefan_oltmann.kim.format.ImageFormatMagicNumbers
+import de.stefan_oltmann.kim.format.MediaFormatMagicNumbers
 import de.stefan_oltmann.kim.format.tiff.constant.ExifTag
 import de.stefan_oltmann.kim.format.tiff.constant.GeoTiffTag
 import de.stefan_oltmann.kim.format.tiff.constant.TiffConstants
@@ -439,7 +439,7 @@ public object TiffReader {
          * Ignore it if it's not a JPEG.
          * Some files have random garbage bytes here.
          */
-        if (!bytes.startsWith(ImageFormatMagicNumbers.jpeg))
+        if (!bytes.startsWith(MediaFormatMagicNumbers.jpeg))
             return null
 
         /*

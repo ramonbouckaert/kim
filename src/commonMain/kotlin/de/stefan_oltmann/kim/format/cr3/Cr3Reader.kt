@@ -16,7 +16,7 @@
 package de.stefan_oltmann.kim.format.cr3
 
 import de.stefan_oltmann.kim.common.ImageReadException
-import de.stefan_oltmann.kim.format.ImageMetadata
+import de.stefan_oltmann.kim.format.MediaMetadata
 import de.stefan_oltmann.kim.format.bmff.BoxReader
 import de.stefan_oltmann.kim.format.bmff.BoxType
 import de.stefan_oltmann.kim.format.bmff.box.Box
@@ -28,7 +28,7 @@ import de.stefan_oltmann.kim.format.tiff.TiffReader
 import de.stefan_oltmann.kim.format.tiff.constant.TiffConstants
 import de.stefan_oltmann.kim.format.tiff.constant.TiffTag
 import de.stefan_oltmann.kim.input.ByteArrayByteReader
-import de.stefan_oltmann.kim.model.ImageFormat
+import de.stefan_oltmann.kim.model.MediaFormat
 import de.stefan_oltmann.kim.model.ImageSize
 
 /**
@@ -40,7 +40,7 @@ internal object Cr3Reader {
     const val CR3_XMP_UUID = "be7acfcb97a942e89c71999491e3afac"
     const val CR3_PREVIEW_UUID = "eaf42b5e1c984b88b9fbb7dc406e4d16"
 
-    fun createMetadata(allBoxes: List<Box>): ImageMetadata {
+    fun createMetadata(allBoxes: List<Box>): MediaMetadata {
 
         val subBoxes = findMetadaSubBoxes(allBoxes)
 
@@ -52,8 +52,8 @@ internal object Cr3Reader {
 
         if (idf0 == null) {
 
-            return ImageMetadata(
-                imageFormat = ImageFormat.CR3,
+            return MediaMetadata(
+                mediaFormat = MediaFormat.CR3,
                 imageSize = null,
                 exif = null,
                 exifBytes = null,
@@ -104,8 +104,8 @@ internal object Cr3Reader {
         else
             null
 
-        return ImageMetadata(
-            imageFormat = ImageFormat.CR3,
+        return MediaMetadata(
+            mediaFormat = MediaFormat.CR3,
             imageSize = imageSize,
             exif = tiffContents,
             exifBytes = null, // TODO Generate bytes?

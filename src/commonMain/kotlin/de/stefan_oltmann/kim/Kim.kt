@@ -19,7 +19,7 @@ import de.stefan_oltmann.kim.common.ImageReadException
 import de.stefan_oltmann.kim.common.ImageWriteException
 import de.stefan_oltmann.kim.common.tryWithImageReadException
 import de.stefan_oltmann.kim.common.tryWithImageWriteException
-import de.stefan_oltmann.kim.format.ImageMetadata
+import de.stefan_oltmann.kim.format.MediaMetadata
 import de.stefan_oltmann.kim.format.ImageParser
 import de.stefan_oltmann.kim.format.arw.ArwPreviewExtractor
 import de.stefan_oltmann.kim.format.cr2.Cr2PreviewExtractor
@@ -43,7 +43,7 @@ import de.stefan_oltmann.kim.input.ByteReader
 import de.stefan_oltmann.kim.input.DefaultRandomAccessByteReader
 import de.stefan_oltmann.kim.input.PrePendingByteReader
 import de.stefan_oltmann.kim.input.use
-import de.stefan_oltmann.kim.model.ImageFormat
+import de.stefan_oltmann.kim.model.MediaFormat
 import de.stefan_oltmann.kim.model.MetadataUpdate
 import de.stefan_oltmann.kim.output.ByteArrayByteWriter
 import de.stefan_oltmann.kim.output.ByteWriter
@@ -54,7 +54,7 @@ public object Kim {
 
     @kotlin.jvm.JvmStatic
     @Throws(ImageReadException::class)
-    public fun readMetadata(bytes: ByteArray): ImageMetadata? =
+    public fun readMetadata(bytes: ByteArray): MediaMetadata? =
         if (bytes.isEmpty())
             null
         else
@@ -64,54 +64,54 @@ public object Kim {
     @Throws(ImageReadException::class)
     public fun readMetadata(
         byteReader: ByteReader
-    ): ImageMetadata? = tryWithImageReadException {
+    ): MediaMetadata? = tryWithImageReadException {
 
         byteReader.use {
 
-            val headerBytes = it.readBytes(ImageFormat.REQUIRED_HEADER_BYTE_COUNT_FOR_DETECTION)
+            val headerBytes = it.readBytes(MediaFormat.REQUIRED_HEADER_BYTE_COUNT_FOR_DETECTION)
 
-            val imageFormat = ImageFormat.detect(headerBytes) ?: return@use null
+            val mediaFormat = MediaFormat.detect(headerBytes) ?: return@use null
 
-            val imageParser = ImageParser.forFormat(imageFormat)
-                ?: return@use ImageMetadata(imageFormat, null, null, null, null, null)
+            val imageParser = ImageParser.forFormat(mediaFormat)
+                ?: return@use MediaMetadata.createEmpty (mediaFormat)
 
             val newReader = PrePendingByteReader(it, headerBytes.toList())
 
             /*
-             * We re-apply the ImageFormat, because we don't want to report
+             * We re-apply the MediaFormat here, because we don't want to report
              * "TIFF" for every TIFF-based RAW format like CR2.
              */
             return@use imageParser
-                .parseMetadata(newReader)
-                .copy(imageFormat = imageFormat)
+                .parseMetadata(byteReader = newReader)
+                .withMediaFormat(mediaFormat = mediaFormat)
         }
     }
 
     /**
      * Determines the file type based on file header and returns metadata bytes.
      *
-     * Cloud services can not reliably tell the mime type, and so we must determine it.
+     * Cloud services can not reliably tell the mime type, so we must determine it.
      */
     @kotlin.jvm.JvmStatic
     @Throws(ImageReadException::class)
     public fun extractMetadataBytes(
         byteReader: ByteReader
-    ): Pair<ImageFormat?, ByteArray> = tryWithImageReadException {
+    ): Pair<MediaFormat?, ByteArray> = tryWithImageReadException {
 
         byteReader.use {
 
-            val headerBytes = it.readBytes(ImageFormat.REQUIRED_HEADER_BYTE_COUNT_FOR_DETECTION)
+            val headerBytes = it.readBytes(MediaFormat.REQUIRED_HEADER_BYTE_COUNT_FOR_DETECTION)
 
-            val imageFormat = ImageFormat.detect(headerBytes)
+            val mediaFormat = MediaFormat.detect(headerBytes)
 
             val newReader = PrePendingByteReader(it, headerBytes.toList())
 
-            return@use when (imageFormat) {
-                ImageFormat.JPEG -> imageFormat to JpegMetadataExtractor.extractMetadataBytes(newReader)
-                ImageFormat.PNG -> imageFormat to PngMetadataExtractor.extractMetadataBytes(newReader)
-                ImageFormat.RAF -> imageFormat to RafMetadataExtractor.extractMetadataBytes(newReader)
-                ImageFormat.GIF -> imageFormat to GifMetadataExtractor.extractMetadataBytes(newReader)
-                else -> imageFormat to byteArrayOf()
+            return@use when (mediaFormat) {
+                MediaFormat.JPEG -> mediaFormat to JpegMetadataExtractor.extractMetadataBytes(newReader)
+                MediaFormat.PNG -> mediaFormat to PngMetadataExtractor.extractMetadataBytes(newReader)
+                MediaFormat.RAF -> mediaFormat to RafMetadataExtractor.extractMetadataBytes(newReader)
+                MediaFormat.GIF -> mediaFormat to GifMetadataExtractor.extractMetadataBytes(newReader)
+                else -> mediaFormat to byteArrayOf()
             }
         }
     }
@@ -124,16 +124,16 @@ public object Kim {
 
         byteReader.use {
 
-            val headerBytes = it.readBytes(ImageFormat.REQUIRED_HEADER_BYTE_COUNT_FOR_DETECTION)
+            val headerBytes = it.readBytes(MediaFormat.REQUIRED_HEADER_BYTE_COUNT_FOR_DETECTION)
 
-            val imageFormat = ImageFormat.detect(headerBytes)
+            val mediaFormat = MediaFormat.detect(headerBytes)
 
             val prePendingByteReader = PrePendingByteReader(it, headerBytes.toList())
 
-            if (imageFormat == ImageFormat.RAF)
+            if (mediaFormat == MediaFormat.RAF)
                 return@use RafPreviewExtractor.extractPreviewImage(prePendingByteReader)
 
-            if (imageFormat == ImageFormat.CR3)
+            if (mediaFormat == MediaFormat.CR3)
                 return@use Cr3PreviewExtractor.extractPreviewImage(prePendingByteReader)
 
             val reader = DefaultRandomAccessByteReader(prePendingByteReader)
@@ -144,13 +144,13 @@ public object Kim {
              * *Note:* Olympus ORF is currently unsupported because the preview offset
              * is burried in the Olympus MakerNotes, which are currently not interpreted.
              */
-            return@use when (imageFormat) {
+            return@use when (mediaFormat) {
 
-                ImageFormat.CR2 -> Cr2PreviewExtractor.extractPreviewImage(tiffContents, reader)
+                MediaFormat.CR2 -> Cr2PreviewExtractor.extractPreviewImage(tiffContents, reader)
 
-                ImageFormat.RW2 -> Rw2PreviewExtractor.extractPreviewImage(tiffContents, reader)
+                MediaFormat.RW2 -> Rw2PreviewExtractor.extractPreviewImage(tiffContents, reader)
 
-                ImageFormat.TIFF -> {
+                MediaFormat.TIFF -> {
 
                     /* It can now be DNG, NEF or ARW. */
                     DngPreviewExtractor.extractPreviewImage(tiffContents, reader)?.let { return@use it }
@@ -206,20 +206,20 @@ public object Kim {
         update: MetadataUpdate
     ): Unit = tryWithImageWriteException {
 
-        val headerBytes = byteReader.readBytes(ImageFormat.REQUIRED_HEADER_BYTE_COUNT_FOR_DETECTION)
+        val headerBytes = byteReader.readBytes(MediaFormat.REQUIRED_HEADER_BYTE_COUNT_FOR_DETECTION)
 
-        val imageFormat = ImageFormat.detect(headerBytes)
+        val mediaFormat = MediaFormat.detect(headerBytes)
 
         val prePendingByteReader = PrePendingByteReader(byteReader, headerBytes.toList())
 
-        return@tryWithImageWriteException when (imageFormat) {
-            ImageFormat.JPEG -> JpegUpdater.update(prePendingByteReader, byteWriter, update)
-            ImageFormat.PNG -> PngUpdater.update(prePendingByteReader, byteWriter, update)
-            ImageFormat.WEBP -> WebPUpdater.update(prePendingByteReader, byteWriter, update)
-            ImageFormat.JXL -> JxlUpdater.update(prePendingByteReader, byteWriter, update)
-            ImageFormat.GIF -> GifUpdater.update(prePendingByteReader, byteWriter, update)
+        return@tryWithImageWriteException when (mediaFormat) {
+            MediaFormat.JPEG -> JpegUpdater.update(prePendingByteReader, byteWriter, update)
+            MediaFormat.PNG -> PngUpdater.update(prePendingByteReader, byteWriter, update)
+            MediaFormat.WEBP -> WebPUpdater.update(prePendingByteReader, byteWriter, update)
+            MediaFormat.JXL -> JxlUpdater.update(prePendingByteReader, byteWriter, update)
+            MediaFormat.GIF -> GifUpdater.update(prePendingByteReader, byteWriter, update)
             null -> throw ImageWriteException("Unknown or unsupported file format.")
-            else -> throw ImageWriteException("Can't embed metadata into $imageFormat.")
+            else -> throw ImageWriteException("Can't embed metadata into $mediaFormat.")
         }
     }
 
@@ -230,15 +230,15 @@ public object Kim {
         thumbnailBytes: ByteArray
     ): ByteArray = tryWithImageWriteException {
 
-        val imageFormat = ImageFormat.detect(bytes)
+        val mediaFormat = MediaFormat.detect(bytes)
 
-        return@tryWithImageWriteException when (imageFormat) {
-            ImageFormat.JPEG -> JpegUpdater.updateThumbnail(bytes, thumbnailBytes)
-            ImageFormat.PNG -> PngUpdater.updateThumbnail(bytes, thumbnailBytes)
-            ImageFormat.WEBP -> WebPUpdater.updateThumbnail(bytes, thumbnailBytes)
-            ImageFormat.JXL -> JxlUpdater.updateThumbnail(bytes, thumbnailBytes)
+        return@tryWithImageWriteException when (mediaFormat) {
+            MediaFormat.JPEG -> JpegUpdater.updateThumbnail(bytes, thumbnailBytes)
+            MediaFormat.PNG -> PngUpdater.updateThumbnail(bytes, thumbnailBytes)
+            MediaFormat.WEBP -> WebPUpdater.updateThumbnail(bytes, thumbnailBytes)
+            MediaFormat.JXL -> JxlUpdater.updateThumbnail(bytes, thumbnailBytes)
             null -> throw ImageWriteException("Unknown or unsupported file format.")
-            else -> throw ImageWriteException("Can't embed thumbnail into $imageFormat.")
+            else -> throw ImageWriteException("Can't embed thumbnail into $mediaFormat.")
         }
     }
 }

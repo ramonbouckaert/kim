@@ -18,7 +18,7 @@ package de.stefan_oltmann.kim.format.jpeg
 import de.stefan_oltmann.kim.common.ImageWriteException
 import de.stefan_oltmann.kim.common.startsWith
 import de.stefan_oltmann.kim.common.tryWithImageWriteException
-import de.stefan_oltmann.kim.format.ImageFormatMagicNumbers
+import de.stefan_oltmann.kim.format.MediaFormatMagicNumbers
 import de.stefan_oltmann.kim.format.MetadataUpdater
 import de.stefan_oltmann.kim.format.jpeg.iptc.IptcMetadata
 import de.stefan_oltmann.kim.format.jpeg.iptc.IptcRecord
@@ -51,7 +51,7 @@ internal object JpegUpdater : MetadataUpdater {
          */
         val bytes = byteReader.readRemainingBytes()
 
-        if (!bytes.startsWith(ImageFormatMagicNumbers.jpeg))
+        if (!bytes.startsWith(MediaFormatMagicNumbers.jpeg))
             throw ImageWriteException("Provided input bytes are not JPEG!")
 
         val kimMetadata = JpegImageParser.parseMetadata(
@@ -73,7 +73,7 @@ internal object JpegUpdater : MetadataUpdater {
         thumbnailBytes: ByteArray
     ): ByteArray = tryWithImageWriteException {
 
-        if (!bytes.startsWith(ImageFormatMagicNumbers.jpeg))
+        if (!bytes.startsWith(MediaFormatMagicNumbers.jpeg))
             throw ImageWriteException("Provided input bytes are not JPEG!")
 
         val metadata = JpegImageParser.parseMetadata(ByteArrayByteReader(bytes))

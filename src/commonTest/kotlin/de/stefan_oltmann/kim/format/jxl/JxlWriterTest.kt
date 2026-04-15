@@ -166,11 +166,11 @@ class JxlWriterTest {
 
             if (!equals) {
 
-                Path("build/photo_${index}_modified.jxl")
+                Path("build/media_${index}_modified.jxl")
                     .writeBytes(newBytes)
 
                 /* Also write a string representation to see differences more quickly. */
-                Path("build/photo_${index}_modified.txt")
+                Path("build/media_${index}_modified.txt")
                     .writeBytes(Kim.readMetadata(newBytes).toString().encodeToByteArray())
 
                 fail("Bytes for test image #$index are different.")

@@ -39,7 +39,7 @@ class KotlinIoPathSourceTest {
     @Test
     fun testToStringWithKotlinIoPath() {
 
-        for (index in 1..KimTestData.TEST_PHOTO_COUNT) {
+        for (index in 1..KimTestData.TEST_MEDIA_COUNT) {
 
             val diskPath = getFullImageDiskPath(index)
 

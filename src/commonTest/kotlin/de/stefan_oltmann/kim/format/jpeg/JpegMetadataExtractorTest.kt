@@ -47,10 +47,10 @@ class JpegMetadataExtractorTest {
 
             if (!equals) {
 
-                Path("build/photo_${index}_header.jpg")
+                Path("build/media_${index}_header.jpg")
                     .writeBytes(actualMetadataBytes)
 
-                fail("Photo $index has not the expected bytes!")
+                fail("Media $index has not the expected bytes!")
             }
         }
     }

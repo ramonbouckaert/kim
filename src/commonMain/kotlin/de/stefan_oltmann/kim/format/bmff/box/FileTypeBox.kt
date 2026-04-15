@@ -1,4 +1,5 @@
 /*
+ * Copyright 2026 Stefan Oltmann
  * Copyright 2025 Ashampoo GmbH & Co. KG
  * Copyright 2002-2023 Drew Noakes and contributors
  *
@@ -72,5 +73,7 @@ public class FileTypeBox(
     internal companion object {
         const val JXL_BRAND = "jxl "
         const val CR3_BRAND = "crx "
+        const val MP4V2_BRAND = "mp42"
+        const val MOV_BRAND = "qt  "
     }
 }

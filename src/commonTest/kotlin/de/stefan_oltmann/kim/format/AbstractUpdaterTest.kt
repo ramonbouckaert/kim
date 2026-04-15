@@ -22,7 +22,7 @@ import de.stefan_oltmann.kim.common.writeBytes
 import de.stefan_oltmann.kim.model.GpsCoordinates
 import de.stefan_oltmann.kim.model.LocationShown
 import de.stefan_oltmann.kim.model.MetadataUpdate
-import de.stefan_oltmann.kim.model.PhotoRating
+import de.stefan_oltmann.kim.model.ExifRating
 import de.stefan_oltmann.kim.model.TiffOrientation
 import kotlinx.io.files.Path
 import kotlin.test.BeforeTest
@@ -258,7 +258,7 @@ abstract class AbstractUpdaterTest(
 
         val newBytes = Kim.update(
             bytes = originalBytes,
-            update = MetadataUpdate.Rating(PhotoRating.FOUR_STARS)
+            update = MetadataUpdate.Rating(ExifRating.FOUR_STARS)
         )
 
         compare("new_rating.$format", newBytes)
@@ -269,7 +269,7 @@ abstract class AbstractUpdaterTest(
 
         val newBytes = Kim.update(
             bytes = noMetadataBytes,
-            update = MetadataUpdate.Rating(PhotoRating.FOUR_STARS)
+            update = MetadataUpdate.Rating(ExifRating.FOUR_STARS)
         )
 
         compare("new_rating.no_metadata.$format", newBytes)

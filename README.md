@@ -34,7 +34,7 @@ Kim is a Kotlin Multiplatform library for reading and writing image metadata.
 ## Installation
 
 ```
-implementation("de.stefan-oltmann:kim:0.28.0")
+implementation("de.stefan-oltmann:kim:0.29.0")
 ```
 
 For the targets `wasmJs` & `js` you also need to specify this:
@@ -70,7 +70,7 @@ println("Taken date: $takenDate")
 
 ### Create high level summary object
 
-This creates an instance of [PhotoMetadata](src/commonMain/kotlin/de/stefan_oltmann/kim/model/PhotoMetadata.kt).
+This creates an instance of [MetadataSummary](src/commonMain/kotlin/de/stefan_oltmann/kim/model/MetadataSummary.kt).
 It contains the following:
 
 - Image size
@@ -90,7 +90,7 @@ It contains the following:
 ```kotlin
 val bytes: ByteArray = loadBytes()
 
-val photoMetadata = Kim.readMetadata(bytes).convertToPhotoMetadata()
+val summary = Kim.readMetadata(bytes).convertToSummary()
 ```
 
 ### Change orientation using low level API

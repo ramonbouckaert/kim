@@ -17,6 +17,7 @@
 package de.stefan_oltmann.kim.format.bmff.box
 
 import de.stefan_oltmann.kim.common.toHex
+import de.stefan_oltmann.kim.format.bmff.BMFFConstants
 import de.stefan_oltmann.kim.format.bmff.BoxType
 import de.stefan_oltmann.kim.input.ByteArrayByteReader
 import de.stefan_oltmann.kim.input.readRemainingBytes

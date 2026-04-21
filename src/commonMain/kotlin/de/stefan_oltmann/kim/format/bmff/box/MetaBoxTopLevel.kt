@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ashampoo.kim.format.bmff.box
+package de.stefan_oltmann.kim.format.bmff.box
 
-import com.ashampoo.kim.common.MetadataOffset
-import com.ashampoo.kim.common.MetadataType
-import com.ashampoo.kim.common.toHex
-import com.ashampoo.kim.format.bmff.BMFFConstants
-import com.ashampoo.kim.format.bmff.BoxType
+import de.stefan_oltmann.kim.common.MetadataOffset
+import de.stefan_oltmann.kim.common.MetadataType
+import de.stefan_oltmann.kim.common.toHex
+import de.stefan_oltmann.kim.format.bmff.BMFFConstants
+import de.stefan_oltmann.kim.format.bmff.BoxType
 
 /**
  * EIC/ISO 14496-12 meta box

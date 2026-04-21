@@ -23,8 +23,10 @@ import de.stefan_oltmann.kim.format.ImageParser
 import de.stefan_oltmann.kim.format.MediaMetadata
 import de.stefan_oltmann.kim.format.bmff.BMFFConstants.BMFF_BYTE_ORDER
 import de.stefan_oltmann.kim.format.bmff.BMFFConstants.TIFF_HEADER_OFFSET_BYTE_COUNT
+import de.stefan_oltmann.kim.format.bmff.box.BoxContainer
 import de.stefan_oltmann.kim.format.bmff.box.FileTypeBox
-import de.stefan_oltmann.kim.format.bmff.box.MetaBox
+import de.stefan_oltmann.kim.format.bmff.box.MetaBoxTopLevel
+import de.stefan_oltmann.kim.format.bmff.box.UuidBox
 import de.stefan_oltmann.kim.format.cr3.Cr3Reader
 import de.stefan_oltmann.kim.format.jxl.JxlReader
 import de.stefan_oltmann.kim.format.tiff.TiffContents

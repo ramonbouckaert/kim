@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ashampoo.kim.format.bmff.box
+package de.stefan_oltmann.kim.format.bmff.box
 
-import com.ashampoo.kim.format.bmff.BoxType
+import de.stefan_oltmann.kim.format.bmff.BoxType
 
 /**
  * EIC/ISO 14496-12 movie box

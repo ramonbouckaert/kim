@@ -115,11 +115,6 @@ public data class BoxType(
         public val MDIA: BoxType = of("mdia".encodeToByteArray())
 
         /**
-         * ISOBMFF Track Header Box
-         */
-        public val TKHD: BoxType = of("tkhd".encodeToByteArray())
-
-        /**
          * ISOBMFF Media Header Box
          */
         public val MDHD: BoxType = of("mdhd".encodeToByteArray())

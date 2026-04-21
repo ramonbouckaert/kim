@@ -19,6 +19,7 @@ Kim is a Kotlin Multiplatform library for reading and writing image metadata.
     + Also read non-standard EXIF & IPTC from `tEXt`/`zTXt` chunk
 * WebP: Read & Write EXIF & XMP
 * HEIC / AVIF: Read EXIF & XMP
+    + Support for animated AVIF files (AV1 Image Sequence)
 * JXL: Read & Write EXIF & XMP of uncompressed files
 * TIFF / RAW: Read EXIF & XMP
     + Full support for Adobe DNG, Canon CR2, Canon CR3 & Fujifilm RAF

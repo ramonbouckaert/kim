@@ -49,15 +49,19 @@ public object BoxReader {
     /**
      * @param byteReader The reader as source for the bytes
      * @param stopAfterMetadataRead If reading the file for metadata on the highest level we
-     * want to stop reading after the meta boxes to prevent reading the whole image data block in.
-     * For iPhone HEIC this is possible, but Samsung HEIC has "meta" coming after "mdat"
+     * want to stop reading after the top-level meta boxes to prevent reading the whole image data
+     * block in. For iPhone HEIC this is possible, but Samsung HEIC has "meta" coming after "mdat"
+     * @param parentBoxType can be used to specify the type of the parent box - used when traversing
+     * through sub boxes. This can change the logic for parsing boxes as "meta" boxes within a sub
+     * box need to be treated differently to "meta" boxes at the top level.
      */
     public fun readBoxes(
         byteReader: ByteReader,
         stopAfterMetadataRead: Boolean = false,
         positionOffset: Long = 0,
         offsetShift: Long = 0,
-        updatePosition: ((Long) -> Unit)? = null
+        updatePosition: ((Long) -> Unit)? = null,
+        parentBoxType: BoxType? = null
     ): List<Box> {
 
         var haveSeenJxlHeaderBox = false
@@ -130,7 +134,11 @@ public object BoxReader {
             val box = when (type) {
                 /* Generic EIC/ISO 14496-12 boxes. */
                 BoxType.FTYP -> FileTypeBox(globalOffset, size, largeSize, bytes)
-                BoxType.META -> MetaBox(globalOffset, size, largeSize, bytes)
+                BoxType.META -> if (parentBoxType == null) {
+                    MetaBoxTopLevel(globalOffset, size, largeSize, bytes)
+                } else {
+                    MetaBox(globalOffset, size, largeSize, bytes)
+                }
                 BoxType.HDLR -> HandlerReferenceBox(globalOffset, size, largeSize, bytes)
                 BoxType.IINF -> ItemInformationBox(globalOffset, size, largeSize, bytes)
                 BoxType.INFE -> ItemInfoEntryBox(globalOffset, size, largeSize, bytes)
@@ -139,6 +147,7 @@ public object BoxReader {
                 BoxType.MDAT -> MediaDataBox(globalOffset, size, largeSize, bytes)
                 BoxType.MOOV -> MovieBox(globalOffset, size, largeSize, bytes)
                 BoxType.TRAK -> TrackBox(globalOffset, size, largeSize, bytes)
+                BoxType.TKHD -> TrackHeaderBox(globalOffset, size, largeSize, bytes)
                 BoxType.MDIA -> MediaBox(globalOffset, size, largeSize, bytes)
                 BoxType.UUID -> UuidBox(globalOffset, size, largeSize, bytes)
                 BoxType.UDTA -> UserDataBox(globalOffset, size, largeSize, bytes)
@@ -156,7 +165,7 @@ public object BoxReader {
             if (stopAfterMetadataRead) {
 
                 /* This is the case for HEIC & AVIF */
-                if (type == BoxType.META)
+                if (type == BoxType.META && parentBoxType == null)
                     break
 
                 /*

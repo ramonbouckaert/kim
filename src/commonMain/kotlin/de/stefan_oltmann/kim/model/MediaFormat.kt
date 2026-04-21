@@ -210,7 +210,7 @@ public enum class MediaFormat(
 
                 /* Check AVIF */
                 bytes.startsWithNullable(MediaFormatMagicNumbers.avif) -> AVIF
-
+                bytes.startsWithNullable(MediaFormatMagicNumbers.avis) -> AVIF
                 /* Check CR3 */
                 bytes.startsWithNullable(MediaFormatMagicNumbers.cr3) -> CR3
 

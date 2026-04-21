@@ -1,4 +1,5 @@
 /*
+ * Copyright 2026 Ramon Bouckaert
  * Copyright 2025 Ashampoo GmbH & Co. KG
  * Copyright 2002-2023 Drew Noakes and contributors
  *
@@ -63,7 +64,8 @@ public class ItemInformationBox(
             byteReader = byteReader,
             stopAfterMetadataRead = false,
             positionOffset = 4L + if (version == 0) 2 else 4,
-            offsetShift = offset + 4 + if (version == 0) 2 else 4
+            offsetShift = offset + 4 + if (version == 0) 2 else 4,
+            parentBoxType = type
         )
 
         val map = mutableMapOf<Int, ItemInfoEntryBox>()
@@ -79,5 +81,5 @@ public class ItemInformationBox(
     }
 
     override fun toString(): String =
-        "$type version=$version flags=${flags.toHex()} ($entryCount entries)"
+        "$type Box version=$version flags=${flags.toHex()} ($entryCount entries)"
 }

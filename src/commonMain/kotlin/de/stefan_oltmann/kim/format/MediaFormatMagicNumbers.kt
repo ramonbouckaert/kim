@@ -114,6 +114,11 @@ public object MediaFormatMagicNumbers {
         null, null, null, null
     ).plus("ftypavif".encodeToByteArray().toList())
 
+    /** 4 bytes + "ftypavis" */
+    public val avis: List<Byte?> = byteListOf(
+        null, null, null, null
+    ).plus("ftypavis".encodeToByteArray().toList())
+
     /** 4 bytes + "ftypcrx" */
     public val cr3: List<Byte?> = byteListOf(
         null, null, null, null

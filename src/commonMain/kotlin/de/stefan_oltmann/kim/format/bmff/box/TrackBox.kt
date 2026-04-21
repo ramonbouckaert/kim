@@ -1,4 +1,5 @@
 /*
+ * Copyright 2026 Ramon Bouckaert
  * Copyright 2026 Stefan Oltmann
  * Copyright 2025 Ashampoo GmbH & Co. KG
  * Copyright 2002-2023 Drew Noakes and contributors
@@ -36,7 +37,7 @@ public class TrackBox(
 
     override val boxes: List<Box>
 
-    public val trackHeaderBox: Box
+    public val trackHeaderBox: TrackHeaderBox
     public val mediaBox: MediaBox
 
     init {
@@ -47,22 +48,19 @@ public class TrackBox(
             byteReader = byteReader,
             stopAfterMetadataRead = false,
             positionOffset = 4,
-            offsetShift = offset + 8
+            offsetShift = offset + 8,
+            parentBoxType = type
         )
 
-        if (boxes.isEmpty())
-            throw ImageReadException("Track box should contain boxes: $boxes")
+        if (boxes.size < 2)
+            throw ImageReadException("Track box should contain at least two boxes: $boxes")
 
-        val localTrackHeaderBox = boxes.find { it.type == BoxType.TKHD }
-        val localMediaBox = boxes.find { it.type == BoxType.MDIA }
-
-        if (localTrackHeaderBox == null || localMediaBox == null)
-            throw ImageReadException("Track box should contain 'tkhd' and 'mdia' boxes: $boxes")
-
-        trackHeaderBox = localTrackHeaderBox
-        mediaBox = localMediaBox as MediaBox
+        trackHeaderBox = boxes.filterIsInstance<TrackHeaderBox>().firstOrNull()
+            ?: throw ImageReadException("Track box should contain a track header box: $boxes")
+        mediaBox = boxes.filterIsInstance<MediaBox>().firstOrNull()
+            ?: throw ImageReadException("Track box should contain a media box: $boxes")
     }
 
     override fun toString(): String =
-        "Box '$type' @$offset boxes=${boxes.map { it.type }}"
+        "$type Box @$offset boxes=${boxes.map { it.type }}"
 }

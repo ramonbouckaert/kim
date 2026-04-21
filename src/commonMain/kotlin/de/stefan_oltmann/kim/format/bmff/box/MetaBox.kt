@@ -1,4 +1,5 @@
 /*
+ * Copyright 2026 Ramon Bouckaert
  * Copyright 2025 Ashampoo GmbH & Co. KG
  * Copyright 2002-2023 Drew Noakes and contributors
  *
@@ -31,7 +32,7 @@ import de.stefan_oltmann.kim.input.readBytes
  *
  * The Meta Box is a container for several metadata boxes.
  */
-public class MetaBox(
+public open class MetaBox(
     offset: Long,
     size: Long,
     largeSize: Long?,
@@ -44,11 +45,8 @@ public class MetaBox(
 
     /* Mandatory boxes in META */
     public val handlerReferenceBox: HandlerReferenceBox
-    public val primaryItemBox: PrimaryItemBox
-    public val itemInfoBox: ItemInformationBox
-    public val itemLocationBox: ItemLocationBox
 
-    override val boxes: List<Box>
+    final override val boxes: List<Box>
 
     init {
 
@@ -65,47 +63,8 @@ public class MetaBox(
             offsetShift = offset + 8
         )
 
-        /* Find & set mandatory boxes. */
+        /* Find & set mandatory box */
         handlerReferenceBox = boxes.find { it.type == BoxType.HDLR } as HandlerReferenceBox
-        primaryItemBox = boxes.find { it.type == BoxType.PITM } as PrimaryItemBox
-        itemInfoBox = boxes.find { it.type == BoxType.IINF } as ItemInformationBox
-        itemLocationBox = boxes.find { it.type == BoxType.ILOC } as ItemLocationBox
-    }
-
-    public fun findMetadataOffsets(): List<MetadataOffset> {
-
-        val offsets = mutableListOf<MetadataOffset>()
-
-        for (extent in itemLocationBox.extents) {
-
-            val itemInfo = itemInfoBox.map.get(extent.itemId) ?: continue
-
-            when (itemInfo.itemType) {
-
-                BMFFConstants.ITEM_TYPE_EXIF ->
-                    offsets.add(
-                        MetadataOffset(
-                            type = MetadataType.EXIF,
-                            offset = extent.offset,
-                            length = extent.length
-                        )
-                    )
-
-                BMFFConstants.ITEM_TYPE_MIME ->
-                    offsets.add(
-                        MetadataOffset(
-                            type = MetadataType.XMP,
-                            offset = extent.offset,
-                            length = extent.length
-                        )
-                    )
-            }
-        }
-
-        /* Sorted for safety. */
-        offsets.sortBy { it.offset }
-
-        return offsets
     }
 
     override fun toString(): String =

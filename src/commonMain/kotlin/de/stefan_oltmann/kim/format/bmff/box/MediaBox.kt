@@ -1,4 +1,5 @@
 /*
+ * Copyright 2026 Ramon Bouckaert
  * Copyright 2025 Ashampoo GmbH & Co. KG
  * Copyright 2002-2023 Drew Noakes and contributors
  *
@@ -42,10 +43,11 @@ public class MediaBox(
             byteReader = byteReader,
             stopAfterMetadataRead = false,
             positionOffset = 4,
-            offsetShift = offset + 8
+            offsetShift = offset + 8,
+            parentBoxType = type
         )
     }
 
     override fun toString(): String =
-        "Box '$type' @$offset boxes=${boxes.map { it.type }}"
+        "$type Box @$offset boxes=${boxes.map { it.type }}"
 }

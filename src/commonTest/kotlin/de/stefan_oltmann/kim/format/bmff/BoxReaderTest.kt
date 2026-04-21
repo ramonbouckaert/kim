@@ -24,7 +24,7 @@ import kotlin.test.assertEquals
 class BoxReaderTest {
 
     @Test
-    fun testExtractMetadataBytes() {
+    fun readsBoxesFromHeic() {
 
         val bytes = KimTestData.getBytesOf(KimTestData.HEIC_TEST_IMAGE_INDEX)
 
@@ -45,5 +45,58 @@ class BoxReaderTest {
         assertEquals(144, allBoxes.first { it.type == BoxType.INFE }.offset)
         assertEquals(2572, allBoxes.first { it.type == BoxType.ILOC }.offset)
         assertEquals(3404, allBoxes.first { it.type == BoxType.MDAT }.offset)
+    }
+
+    @Test
+    fun readsBoxesFromAvif() {
+
+        val bytes = KimTestData.getBytesOf(KimTestData.AVIF_TEST_IMAGE_FROM_JPG_USING_IMAGEMAGICK_INDEX)
+
+        val byteReader = ByteArrayByteReader(bytes)
+
+        val boxes = BoxReader.readBoxes(
+            byteReader = byteReader,
+            stopAfterMetadataRead = false
+        )
+
+        val allBoxes = BoxContainer.findAllBoxesRecursive(boxes)
+
+        assertEquals(0, allBoxes.first { it.type == BoxType.FTYP }.offset)
+        assertEquals(28, allBoxes.first { it.type == BoxType.META }.offset)
+        assertEquals(40, allBoxes.first { it.type == BoxType.HDLR }.offset)
+        assertEquals(73, allBoxes.first { it.type == BoxType.PITM }.offset)
+        assertEquals(87, allBoxes.first { it.type == BoxType.ILOC }.offset)
+        assertEquals(157, allBoxes.first { it.type == BoxType.IINF }.offset)
+        assertEquals(169, allBoxes.first { it.type == BoxType.INFE }.offset)
+        assertEquals(401, allBoxes.first { it.type == BoxType.MDAT }.offset)
+    }
+
+    @Test
+    fun readsBoxesFromAnimatedAvif() {
+
+        val bytes = KimTestData.getBytesOf(KimTestData.ANIMATED_AVIF_TEST_IMAGE_INDEX)
+
+        val byteReader = ByteArrayByteReader(bytes)
+
+        val boxes = BoxReader.readBoxes(
+            byteReader = byteReader,
+            stopAfterMetadataRead = false
+        )
+
+        val allBoxes = BoxContainer.findAllBoxesRecursive(boxes)
+
+        assertEquals(0, allBoxes.first { it.type == BoxType.FTYP }.offset)
+        assertEquals(44, allBoxes.first { it.type == BoxType.META }.offset)
+        assertEquals(56, allBoxes.first { it.type == BoxType.HDLR }.offset)
+        assertEquals(89, allBoxes.first { it.type == BoxType.PITM }.offset)
+        assertEquals(103, allBoxes.first { it.type == BoxType.ILOC }.offset)
+        assertEquals(161, allBoxes.first { it.type == BoxType.IINF }.offset)
+        assertEquals(173, allBoxes.first { it.type == BoxType.INFE }.offset)
+        assertEquals(416, allBoxes.first { it.type == BoxType.MOOV }.offset)
+        assertEquals(548, allBoxes.first { it.type == BoxType.TRAK }.offset)
+        assertEquals(560, allBoxes.first { it.type == BoxType.TKHD }.offset)
+        assertEquals(880, allBoxes.first { it.type == BoxType.MDIA }.offset)
+        assertEquals(969, allBoxes.first { it.type == BoxType.MINF }.offset)
+        assertEquals(1298, allBoxes.first { it.type == BoxType.MDAT }.offset)
     }
 }

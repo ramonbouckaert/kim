@@ -100,12 +100,17 @@ public data class BoxType(
         public val MOOV: BoxType = of("moov".encodeToByteArray())
 
         /**
-         * ISOBMFF Track Box, used by CR3
+         * ISOBMFF Track Box, used by CR3 and AVIS
          */
         public val TRAK: BoxType = of("trak".encodeToByteArray())
 
         /**
-         * ISOBMFF Media Box, used by CR3
+         * ISOBMFF Track Header Box, used by CR3 and AVIS
+         */
+        public val TKHD: BoxType = of("tkhd".encodeToByteArray())
+
+        /**
+         * ISOBMFF Media Box, used by CR3 amd AVIS
          */
         public val MDIA: BoxType = of("mdia".encodeToByteArray())
 

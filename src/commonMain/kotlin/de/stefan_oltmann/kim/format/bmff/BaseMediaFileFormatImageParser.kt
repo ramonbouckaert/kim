@@ -92,7 +92,7 @@ public object BaseMediaFileFormatImageParser : ImageParser {
         if (metadataOffsets.isEmpty() && uuidBoxes.none { it.isXmp() })
             return MediaMetadata.createEmpty(mediaFormat = null)
 
-        val minOffset = metadataOffsets.firstOrNull()?.offset ?: uuidBoxes.minOf { it.offset }
+        val minOffset = metadataOffsets.firstOrNull()?.offset
 
         /*
          * In case of Samsung Galaxy HEIC files the mdat Box comes
@@ -103,8 +103,12 @@ public object BaseMediaFileFormatImageParser : ImageParser {
          * We currently do this by having a copy of all bytes
          * in buffer and input everything we read so far in again.
          * FIXME There must be a better solution. Find it.
+         *
+         * If minOffset is null, there is no metadata to read from metadata offsets. The only
+         * metadata we have is in UUID boxes, which we have already read into memory by this point.
+         * If this is the case, we can avoid resetting the reader position.
          */
-        val onPositionBeforeMinimumOffset = position <= minOffset
+        val onPositionBeforeMinimumOffset = minOffset == null || position <= minOffset
 
         val byteReaderToUse = if (onPositionBeforeMinimumOffset) {
 

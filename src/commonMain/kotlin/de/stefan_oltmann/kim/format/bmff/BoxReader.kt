@@ -66,6 +66,10 @@ public object BoxReader {
 
         var haveSeenJxlHeaderBox = false
 
+        var haveSeenTopLevelMetaBox = false
+
+        var haveSeenXmpDataInUuid = false
+
         val boxes = mutableListOf<Box>()
 
         var position: Long = positionOffset
@@ -164,9 +168,35 @@ public object BoxReader {
 
             if (stopAfterMetadataRead) {
 
-                /* This is the case for HEIC & AVIF */
-                if (type == BoxType.META && parentBoxType == null)
-                    break
+                /* Metadata is here for most HEIC & AVIF */
+                if (type == BoxType.META && parentBoxType == null) {
+                    haveSeenTopLevelMetaBox = true
+
+                    box as MetaBoxTopLevel
+
+                    /*
+                     * If this box has XMP, we can break. If it's missing XMP, we should continue
+                     * reading the file to search for an XMP UUID box (or break now if we've already
+                     * seen it)
+                     */
+                    if (box.hasXmp() || haveSeenXmpDataInUuid) {
+                        break
+                    }
+                }
+
+                /* Some store XMP data in a UUID box instead */
+                if (type == BoxType.UUID) {
+                    box as UuidBox
+
+                    /*
+                     * If this box contains XMP, we can break as soon as we also find the top-level
+                     *  META box (or break now if we've already seen it)
+                     */
+                    if (box.isXmp()) {
+                        haveSeenXmpDataInUuid = true
+                        if (haveSeenTopLevelMetaBox) break
+                    }
+                }
 
                 /*
                  * When parsing JXL we need to take a note that we saw the header.

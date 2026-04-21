@@ -75,6 +75,14 @@ public class MetaBoxTopLevel(
         return offsets
     }
 
+    public fun hasXmp(): Boolean {
+        for (extent in itemLocationBox.extents) {
+            val itemInfo = itemInfoBox.map.get(extent.itemId) ?: continue
+            if (itemInfo.itemType == BMFFConstants.ITEM_TYPE_MIME) return true
+        }
+        return false
+    }
+
     override fun toString(): String =
         "$type Box version=$version flags=${flags.toHex()} boxes=${boxes.map { it.type }}"
 }

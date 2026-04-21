@@ -82,10 +82,12 @@ public object BaseMediaFileFormatImageParser : ImageParser {
         val metaBox = allBoxes.filterIsInstance<MetaBoxTopLevel>().firstOrNull()
             ?: throw ImageReadException("Illegal ISOBMFF: Has no top-level 'meta' Box.")
 
+        val uuidBoxes = BoxContainer.findAllBoxesRecursive(allBoxes).filterIsInstance<UuidBox>()
+
         val metadataOffsets = metaBox.findMetadataOffsets()
 
         /* Return empty object if no metadata is found. */
-        if (metadataOffsets.isEmpty())
+        if (metadataOffsets.isEmpty() && uuidBoxes.none { it.isXmp() })
             return MediaMetadata.createEmpty(mediaFormat = null)
 
         val minOffset = metadataOffsets.first().offset
@@ -155,6 +157,11 @@ public object BaseMediaFileFormatImageParser : ImageParser {
                     position = offset.endPosition
                 }
             }
+        }
+
+        /* XMP data can also be found in a UUID box, if we didn't find it in the META box. */
+        if (xmp == null) {
+            xmp = uuidBoxes.firstOrNull { it.isXmp() }?.data?.decodeToString()
         }
 
         return MediaMetadata(

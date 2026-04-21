@@ -64,6 +64,8 @@ class ImageFormatTest {
                 index == KimTestData.GEOTIFF_AFFINE_TRANSFORM_INDEX -> ImageFormat.TIFF
                 index == KimTestData.CR3_TEST_IMAGE_INDEX -> ImageFormat.CR3
                 index == KimTestData.ANIMATED_AVIF_TEST_IMAGE_INDEX -> ImageFormat.AVIF
+                index == KimTestData.ANIMATED_AVIF_TEST_IMAGE_WITH_LEGACY_ADOBE_XMP_INDEX -> ImageFormat.AVIF
+                index == KimTestData.ANIMATED_AVIF_TEST_IMAGE_WITH_ALT_LEGACY_ADOBE_XMP_INDEX -> ImageFormat.AVIF
                 else -> null
             }
 

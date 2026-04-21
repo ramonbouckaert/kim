@@ -49,6 +49,8 @@ public class UuidBox(
         data = byteReader.readRemainingBytes()
     }
 
+    public fun isXmp(): Boolean = uuidAsHex == BMFFConstants.XMP_UUID
+
     override fun toString(): String =
         "Box '$type' @$offset uuid=$uuidAsHex (${actualLength} bytes)"
 }

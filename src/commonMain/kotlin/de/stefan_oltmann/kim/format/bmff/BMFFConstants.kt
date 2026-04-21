@@ -35,4 +35,7 @@ internal object BMFFConstants {
     const val ITEM_TYPE_EXIF = 1_165_519_206
     const val ITEM_TYPE_MIME = 1_835_625_829
     const val ITEM_TYPE_JPEG = 1_785_750_887
+
+    /** Standard UUID for XMP metadata embedded in a uuid box */
+    const val XMP_UUID = "be7acfcb97a942e89c71999491e3afac"
 }

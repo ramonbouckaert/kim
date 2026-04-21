@@ -68,6 +68,8 @@ object KimTestData {
     const val MP4_TEST_VIDEO_INDEX: Int = 84
     const val MOV_TEST_VIDEO_INDEX: Int = 85
     const val ANIMATED_AVIF_TEST_IMAGE_INDEX: Int = 84
+    const val ANIMATED_AVIF_TEST_IMAGE_WITH_LEGACY_ADOBE_XMP_INDEX: Int = 85
+    const val ANIMATED_AVIF_TEST_IMAGE_WITH_ALT_LEGACY_ADOBE_XMP_INDEX: Int = 86
 
     @Suppress("MagicNumber")
     val mediaIdsWithExifThumbnail: Set<Int> = setOf(
@@ -150,6 +152,8 @@ object KimTestData {
         MP4_TEST_VIDEO_INDEX -> "mp4"
         MOV_TEST_VIDEO_INDEX -> "mov"
         ANIMATED_AVIF_TEST_IMAGE_INDEX -> "avif"
+        ANIMATED_AVIF_TEST_IMAGE_WITH_LEGACY_ADOBE_XMP_INDEX -> "avif"
+        ANIMATED_AVIF_TEST_IMAGE_WITH_ALT_LEGACY_ADOBE_XMP_INDEX -> "avif"
         else -> "jpg"
     }
 

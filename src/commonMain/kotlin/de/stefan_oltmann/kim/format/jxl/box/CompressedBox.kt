@@ -30,5 +30,5 @@ public class CompressedBox(
 ) : Box(BoxType.BROB, offset, size, largeSize, payload) {
 
     public val actualType: BoxType =
-        BoxType.of(payload.take(BMFFConstants.TPYE_LENGTH).toByteArray())
+        BoxType.of(payload.take(BMFFConstants.TYPE_LENGTH).toByteArray())
 }

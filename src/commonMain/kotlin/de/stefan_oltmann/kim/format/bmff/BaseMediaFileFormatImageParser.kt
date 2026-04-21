@@ -92,7 +92,7 @@ public object BaseMediaFileFormatImageParser : ImageParser {
         if (metadataOffsets.isEmpty() && uuidBoxes.none { it.isXmp() })
             return MediaMetadata.createEmpty(mediaFormat = null)
 
-        val minOffset = metadataOffsets.first().offset
+        val minOffset = metadataOffsets.firstOrNull()?.offset ?: uuidBoxes.minOf { it.offset }
 
         /*
          * In case of Samsung Galaxy HEIC files the mdat Box comes

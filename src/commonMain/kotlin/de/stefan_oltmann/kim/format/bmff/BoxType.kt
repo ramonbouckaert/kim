@@ -218,7 +218,7 @@ public data class BoxType(
         @Suppress("MagicNumber")
         public fun of(typeBytes: ByteArray): BoxType {
 
-            require(typeBytes.size == BMFFConstants.TPYE_LENGTH) {
+            require(typeBytes.size == BMFFConstants.TYPE_LENGTH) {
                 "BoxType must be always 4 bytes!"
             }
 

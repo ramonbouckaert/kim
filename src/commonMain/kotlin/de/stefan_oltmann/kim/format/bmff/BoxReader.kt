@@ -95,7 +95,7 @@ public object BoxReader {
                 byteReader.read4BytesAsInt("length", BMFF_BYTE_ORDER).toLong()
 
             val type = BoxType.of(
-                byteReader.readBytes("type", BMFFConstants.TPYE_LENGTH)
+                byteReader.readBytes("type", BMFFConstants.TYPE_LENGTH)
             )
 
             position += BMFFConstants.BOX_HEADER_LENGTH

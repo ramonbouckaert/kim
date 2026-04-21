@@ -23,13 +23,13 @@ internal object BMFFConstants {
     val BMFF_BYTE_ORDER = ByteOrder.BIG_ENDIAN
 
     /** BoxType must be always 4 bytes */
-    const val TPYE_LENGTH = 4
+    const val TYPE_LENGTH = 4
 
     /** The size is presented as unsinged integer */
     const val SIZE_LENGTH = 4
 
     /** 4 size bytes + 4 type bytes */
-    const val BOX_HEADER_LENGTH = TPYE_LENGTH + SIZE_LENGTH
+    const val BOX_HEADER_LENGTH = TYPE_LENGTH + SIZE_LENGTH
 
     const val TIFF_HEADER_OFFSET_BYTE_COUNT = 4
 

@@ -178,11 +178,11 @@ public object BoxReader {
                     box as MetaBoxTopLevel
 
                     /*
-                     * If this box has XMP, we can break. If it's missing XMP, we should continue
-                     * reading the file to search for an XMP UUID box (or break now if we've already
-                     * seen it)
+                     * If this box references XMP data, we can break. If it's missing XMP, we should
+                     * continue reading the file to search for an XMP UUID box (or break now if
+                     * we've already seen it)
                      */
-                    if (box.hasXmp() || haveSeenXmpDataInUuid) {
+                    if (box.referencesXmp || haveSeenXmpDataInUuid) {
                         break
                     }
                 }

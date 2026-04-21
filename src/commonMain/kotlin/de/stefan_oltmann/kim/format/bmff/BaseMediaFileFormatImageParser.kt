@@ -165,7 +165,7 @@ public object BaseMediaFileFormatImageParser : ImageParser {
             }
         }
 
-        /* XMP data can also be found in a UUID box, if we didn't find it in the META box. */
+        /* XMP data can also be found in a UUID box, if we didn't find it in the metadata offsets. */
         if (xmp == null) {
             xmp = uuidBoxes.firstOrNull { it.isXmp }?.data?.decodeToString()
         }

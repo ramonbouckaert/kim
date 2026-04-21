@@ -89,7 +89,7 @@ public object BaseMediaFileFormatImageParser : ImageParser {
         val metadataOffsets = metaBox.findMetadataOffsets()
 
         /* Return empty object if no metadata is found. */
-        if (metadataOffsets.isEmpty() && uuidBoxes.none { it.isXmp() })
+        if (metadataOffsets.isEmpty() && uuidBoxes.none { it.isXmp })
             return MediaMetadata.createEmpty(mediaFormat = null)
 
         val minOffset = metadataOffsets.firstOrNull()?.offset
@@ -167,7 +167,7 @@ public object BaseMediaFileFormatImageParser : ImageParser {
 
         /* XMP data can also be found in a UUID box, if we didn't find it in the META box. */
         if (xmp == null) {
-            xmp = uuidBoxes.firstOrNull { it.isXmp() }?.data?.decodeToString()
+            xmp = uuidBoxes.firstOrNull { it.isXmp }?.data?.decodeToString()
         }
 
         return MediaMetadata(

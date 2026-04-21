@@ -195,7 +195,7 @@ public object BoxReader {
                      * If this box contains XMP, we can break as soon as we also find the top-level
                      *  META box (or break now if we've already seen it)
                      */
-                    if (box.isXmp()) {
+                    if (box.isXmp) {
                         haveSeenXmpDataInUuid = true
                         if (haveSeenTopLevelMetaBox) break
                     }
